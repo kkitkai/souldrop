@@ -23,23 +23,29 @@
 #
 #  Requirements / Yeu cau:
 #    - Windows 10 1809+ , internet
-#    - PRO only: a paid Claude plan (Pro/Max/Team) for the login step
+#    - PRO only: a paid Claude plan (Pro or higher) for the login step
 #    - No admin rights needed / Khong can quyen admin
 #
 #  Safe to re-run at any time. / Chay lai bao nhieu lan cung an toan.
 #  PowerShell 5.1 compatible.
+#
+#  Optional, for scripts/testing (normal users never need these):
+#    $env:SOULDROP_ENGINE = 'pro' | 'free'   skip the one question
+#    $env:SOULDROP_REF    = '<branch|tag>'   install the plugin from that branch/tag
 # =====================================================================
 
 $ErrorActionPreference = 'Stop'
 
-$SoulDropVersion = '0.6.0'
+$SoulDropVersion = '0.7.0'
 
 # The GitHub account that hosts this marketplace.
 $RepoOwner       = 'kkitkai'
+$SoulDropRef     = if ($env:SOULDROP_REF) { $env:SOULDROP_REF } else { 'main' }
 $MarketplaceRepo = "$RepoOwner/souldrop"
+if ($SoulDropRef -ne 'main') { $MarketplaceRepo = "$RepoOwner/souldrop#$SoulDropRef" }
 $MarketplaceName = 'souldrop'
 $PluginName      = 'souldrop'
-$RawBase         = "https://raw.githubusercontent.com/$RepoOwner/souldrop/main"
+$RawBase         = "https://raw.githubusercontent.com/$RepoOwner/souldrop/$SoulDropRef"
 $ReferralUrl     = 'https://claude.ai/referral/QbA1I722cA'
 
 function Write-Step($msg) { Write-Host ""; Write-Host "==> $msg" -ForegroundColor Cyan }
@@ -61,17 +67,22 @@ function Test-ClaudeInstalled {
     return (Test-Path $native)
 }
 
-function Get-NodeMajor {
+# Node version as a comparable number: v20.19.1 -> 2019 (0 = no node).
+function Get-NodeVersionNumber {
     $n = Get-Command node -ErrorAction SilentlyContinue
     if ($null -eq $n) { return 0 }
-    try { return [int](((node -v) -replace '^v','') -split '\.')[0] } catch { return 0 }
+    try {
+        $parts = ((node -v) -replace '^v','') -split '\.'
+        return ([int]$parts[0]) * 100 + [int]$parts[1]
+    } catch { return 0 }
 }
 
-# Node 20+ powers two optional extras (browsing + smart memory). Install it
-# once via winget when missing; return the major version either way.
+# Node 20.19+ powers the optional extras (browsing needs >= 20.19, smart
+# memory 20+) and the safety net. Install/upgrade it once via winget when
+# missing or too old; return the version number either way.
 function Ensure-NodeLts {
-    $nodeMajor = Get-NodeMajor
-    if ($nodeMajor -lt 20) {
+    $nodeVer = Get-NodeVersionNumber
+    if ($nodeVer -lt 2019) {
         $wingetCmd = Get-Command winget -ErrorAction SilentlyContinue
         if ($null -ne $wingetCmd) {
             Write-Note "Adding Node.js LTS (a helper tool)... / Dang cai Node.js LTS (cong cu ho tro)..."
@@ -83,10 +94,39 @@ function Ensure-NodeLts {
             if ((Test-Path $nodeDir) -and ($env:Path -notlike "*$nodeDir*")) {
                 $env:Path = "$nodeDir;$env:Path"
             }
-            $nodeMajor = Get-NodeMajor
+            $nodeVer = Get-NodeVersionNumber
         }
     }
-    return $nodeMajor
+    return $nodeVer
+}
+
+# Install a plugin from its marketplace, newest Claude Code way first:
+#   claude plugin install <plugin> --marketplace <source>   (2.1.292+)
+# then the classic two-step for older versions. On a re-run it refreshes
+# the marketplace and updates the plugin. Quiet; returns $true on success.
+function Install-PluginFromMarketplace($plugin, $source, $marketName) {
+    $prev = $ErrorActionPreference
+    $ErrorActionPreference = 'Continue'
+    $ok = $false
+    try {
+        claude plugin install $plugin --marketplace $source 2>$null | Out-Null
+        if ($LASTEXITCODE -eq 0) {
+            claude plugin marketplace update $marketName 2>$null | Out-Null
+            claude plugin update "$plugin@$marketName" 2>$null | Out-Null
+            $ok = $true
+        } else {
+            claude plugin marketplace add $source 2>$null | Out-Null
+            if ($LASTEXITCODE -ne 0) { claude plugin marketplace update $marketName 2>$null | Out-Null }
+            claude plugin install "$plugin@$marketName" 2>$null | Out-Null
+            if ($LASTEXITCODE -eq 0) { $ok = $true }
+            else {
+                claude plugin update "$plugin@$marketName" 2>$null | Out-Null
+                if ($LASTEXITCODE -eq 0) { $ok = $true }
+            }
+        }
+    } catch { $ok = $false }
+    $ErrorActionPreference = $prev
+    return $ok
 }
 
 # chrome-devtools drives the user's REAL Chrome - it never downloads one.
@@ -101,7 +141,7 @@ function Test-ChromeInstalled {
     return $false
 }
 
-# Record what this run installed to ~/.souldrop/installed.json — /doctor and
+# Record what this run installed to ~/.souldrop/installed.json — /health and
 # /uninstall read it. Plain ASCII, non-blocking (a failed write hurts nothing).
 function Write-InstallManifest($engine, $itemsJson) {
     try {
@@ -136,7 +176,7 @@ function Install-ClaudeEngine {
     # ---------------------------------------------------------------
     # Step 1 - Claude Code itself (official Anthropic installer)
     # ---------------------------------------------------------------
-    Write-Step "Step 1/6: Checking Claude Code... / Kiem tra Claude Code..."
+    Write-Step "Step 1/5: Checking Claude Code... / Kiem tra Claude Code..."
 
     if (Test-ClaudeInstalled) {
         Write-Ok "Claude Code is already installed. / Claude Code da duoc cai dat."
@@ -180,10 +220,24 @@ function Install-ClaudeEngine {
     }
     Write-Ok ("claude found at: " + $claudeCmd.Source)
 
+    # SoulDrop uses features from Claude Code 2.1.295+ (safety-net fail-open,
+    # one-step plugin install). Older? Run Claude Code's own updater once.
+    try {
+        $ccVer = ((claude --version 2>$null) -split ' ')[0]
+        $p = $ccVer -split '\.'
+        $tooOld = ([int]$p[0] -lt 2) -or (([int]$p[0] -eq 2) -and ([int]$p[1] -lt 1)) -or (([int]$p[0] -eq 2) -and ([int]$p[1] -eq 1) -and ([int]$p[2] -lt 295))
+        if ($tooOld) {
+            Write-Note "Claude Code $ccVer is a bit old - updating it (official updater)... / Claude Code hoi cu - dang cap nhat..."
+            $prevU = $ErrorActionPreference; $ErrorActionPreference = 'Continue'
+            claude update 2>$null | Out-Null
+            $ErrorActionPreference = $prevU
+        }
+    } catch { }
+
     # ---------------------------------------------------------------
-    # Step 2 - Add the plugin marketplace (idempotent)
+    # Step 2 - Install the SoulDrop plugin from this repo's marketplace
     # ---------------------------------------------------------------
-    Write-Step "Step 2/6: Adding the SoulDrop marketplace... / Them kho plugin SoulDrop..."
+    Write-Step "Step 2/5: Installing the SoulDrop plugin... / Cai plugin SoulDrop..."
 
     # `marketplace add` clones this repo with git - many fresh Windows machines
     # don't have git, and beginners should never have to install it themselves.
@@ -210,69 +264,31 @@ function Install-ClaudeEngine {
         }
     }
 
-    # `marketplace add` fails politely if it already exists -> then just update it.
-    claude plugin marketplace add $MarketplaceRepo 2>$null
-    if ($LASTEXITCODE -eq 0) {
-        Write-Ok "Marketplace added. / Da them kho plugin."
+    if (Install-PluginFromMarketplace $PluginName $MarketplaceRepo $MarketplaceName) {
+        Write-Ok "SoulDrop plugin installed. / Da cai plugin SoulDrop."
     } else {
-        claude plugin marketplace update $MarketplaceName 2>$null
-        if ($LASTEXITCODE -eq 0) {
-            Write-Ok "Marketplace already present - refreshed. / Kho plugin da co san - da cap nhat."
-        } else {
-            Write-Note "Could not add or update the marketplace. Check your internet connection and that the repo exists:"
-            Write-Note "Khong them duoc kho plugin. Kiem tra mang va repo:"
-            Write-Note "  https://github.com/$MarketplaceRepo"
-            return
-        }
+        Write-Note "Could not install the SoulDrop plugin. Check your internet connection, then re-run the install command."
+        Write-Note "Khong cai duoc plugin SoulDrop. Kiem tra mang roi chay lai lenh cai dat."
+        Write-Note "  (Or inside Claude Code: /plugin marketplace add $MarketplaceRepo  then  /plugin install souldrop@souldrop)"
+        return
     }
 
     # ---------------------------------------------------------------
-    # Step 3 - Install the SoulDrop plugin (idempotent)
-    # ---------------------------------------------------------------
-    Write-Step "Step 3/6: Installing the SoulDrop plugin... / Cai plugin SoulDrop..."
-
-    claude plugin install "$PluginName@$MarketplaceName" 2>$null
-    if ($LASTEXITCODE -eq 0) {
-        Write-Ok "Plugin '$PluginName' installed. / Da cai plugin '$PluginName'."
-    } else {
-        # Most common benign cause: already installed.
-        claude plugin update $PluginName 2>$null
-        if ($LASTEXITCODE -eq 0) {
-            Write-Ok "Plugin already installed - updated instead. / Plugin da co - da cap nhat."
-        } else {
-            Write-Note "Plugin install failed. Try manually inside Claude Code:"
-            Write-Note "Cai plugin that bai. Thu chay thu cong trong Claude Code:"
-            Write-Note "  /plugin install $PluginName@$MarketplaceName"
-        }
-    }
-
-    # ---------------------------------------------------------------
-    # Step 4 - OPTIONAL: everyday superpowers (documents + browsing).
+    # Step 3 - OPTIONAL: everyday superpowers (documents + browsing).
     # Fully automatic, fully non-blocking: any failure = one friendly
     # line, keep going. The user never installs anything themselves.
     # ---------------------------------------------------------------
-    Write-Step "Step 4/6: Everyday superpowers (documents + browsing)... / Sieu nang luc hang ngay (tai lieu + luot web)..."
+    Write-Step "Step 3/5: Everyday superpowers (documents + browsing)... / Sieu nang luc hang ngay (tai lieu + luot web)..."
 
     $prevEAP = $ErrorActionPreference
     $ErrorActionPreference = 'Continue'   # optional extras must never hard-stop
 
-    # 4a. Anthropic document skills - real Word/Excel/PowerPoint/PDF files.
+    # 3a. Anthropic document skills - real Word/Excel/PowerPoint/PDF files.
     # Installed from Anthropic's OWN marketplace, never vendored (their
     # document skills are source-available; install-only is the legal path).
-    $docsOk = $false
-    try {
-        claude plugin marketplace add anthropics/skills 2>$null
-        if ($LASTEXITCODE -ne 0) { claude plugin marketplace update anthropic-agent-skills 2>$null }
-        claude plugin install document-skills@anthropic-agent-skills 2>$null
-        if ($LASTEXITCODE -eq 0) { $docsOk = $true }
-        else {
-            claude plugin update document-skills 2>$null
-            if ($LASTEXITCODE -eq 0) { $docsOk = $true }
-        }
-        # Creative extras (posters/graphics, incl. canvas-design; Apache-2.0).
-        claude plugin install example-skills@anthropic-agent-skills 2>$null
-        if ($LASTEXITCODE -ne 0) { claude plugin update example-skills 2>$null }
-    } catch { $docsOk = $false }
+    $docsOk = Install-PluginFromMarketplace 'document-skills' 'anthropics/skills' 'anthropic-agent-skills'
+    # Creative extras (posters/graphics, incl. canvas-design; Apache-2.0).
+    Install-PluginFromMarketplace 'example-skills' 'anthropics/skills' 'anthropic-agent-skills' | Out-Null
     if ($docsOk) {
         Write-Ok "Documents pack ready - your assistant can make real Word/Excel/PowerPoint/PDF files."
         Write-Ok "Goi tai lieu san sang - tro ly lam duoc file Word/Excel/PowerPoint/PDF that."
@@ -281,8 +297,8 @@ function Install-ClaudeEngine {
         Write-Note "Bo qua goi tai lieu - tro ly van doc PDF va viet van ban binh thuong."
     }
 
-    # 4b. Browsing power (chrome-devtools MCP, by Google - no account, no
-    # key). Only when Chrome is already installed; needs Node 20+ (npx).
+    # 3b. Browsing power (chrome-devtools MCP, by Google - no account, no
+    # key). Only when Chrome is already installed; needs Node 20.19+ (npx).
     $chromeOk = $false
     if (Test-ChromeInstalled) {
         try {
@@ -290,7 +306,7 @@ function Install-ClaudeEngine {
             claude mcp get chrome-devtools 2>$null | Out-Null
             if ($LASTEXITCODE -eq 0) {
                 $chromeOk = $true
-            } elseif ((Ensure-NodeLts) -ge 20) {
+            } elseif ((Ensure-NodeLts) -ge 2019) {
                 claude mcp add chrome-devtools --scope user -- npx chrome-devtools-mcp@latest 2>$null
                 if ($LASTEXITCODE -eq 0) { $chromeOk = $true }
             }
@@ -308,30 +324,24 @@ function Install-ClaudeEngine {
     $ErrorActionPreference = $prevEAP
 
     # ---------------------------------------------------------------
-    # Step 5 - OPTIONAL: smart memory (agentmemory). Fully automatic,
+    # Step 4 - OPTIONAL: smart memory (agentmemory). Fully automatic,
     # fully non-blocking: any failure = one friendly line, keep going.
     # ---------------------------------------------------------------
-    Write-Step "Step 5/6: Smart memory (optional extra)... / Bo nho thong minh (tuy chon)..."
+    Write-Step "Step 4/5: Smart memory (optional extra)... / Bo nho thong minh (tuy chon)..."
 
     $prevEAP = $ErrorActionPreference
     $ErrorActionPreference = 'Continue'   # optional extras must never hard-stop
     $memOk = $false
     try {
         # agentmemory (Apache-2.0, github.com/rohitg00/agentmemory) needs Node 20+.
-        if ((Ensure-NodeLts) -ge 20) {
+        if ((Ensure-NodeLts) -ge 2000) {
             # agentmemory writes its data store relative to the CURRENT directory -
             # run the install from a stable home dir so memories survive restarts.
             $memHome = Join-Path $env:USERPROFILE '.agentmemory'
             New-Item -ItemType Directory -Force -Path $memHome | Out-Null
             Push-Location $memHome
             try {
-                claude plugin marketplace add rohitg00/agentmemory 2>$null
-                claude plugin install agentmemory 2>$null
-                if ($LASTEXITCODE -eq 0) { $memOk = $true }
-                else {
-                    claude plugin install agentmemory@agentmemory 2>$null
-                    if ($LASTEXITCODE -eq 0) { $memOk = $true }
-                }
+                $memOk = Install-PluginFromMarketplace 'agentmemory' 'rohitg00/agentmemory' 'agentmemory'
             } finally { Pop-Location }
         }
     } catch { $memOk = $false }
@@ -345,10 +355,10 @@ function Install-ClaudeEngine {
     }
 
     # ---------------------------------------------------------------
-    # Step 6 - OPTIONAL: Obsidian note app (for the second brain).
+    # Step 5 - OPTIONAL: Obsidian note app (for the second brain).
     # Same rule: automatic, never blocks, friendly skip on failure.
     # ---------------------------------------------------------------
-    Write-Step "Step 6/6: Obsidian note app (optional extra)... / Ung dung ghi chu Obsidian (tuy chon)..."
+    Write-Step "Step 5/5: Obsidian note app (optional extra)... / Ung dung ghi chu Obsidian (tuy chon)..."
 
     $prevEAP = $ErrorActionPreference
     $ErrorActionPreference = 'Continue'
@@ -376,7 +386,15 @@ function Install-ClaudeEngine {
         Write-Note "Bo qua Obsidian - ghi chu van hoat dong dang file. Tai sau tai obsidian.md"
     }
 
-    # Record the outcome for /doctor and /uninstall.
+    # The safety net (blocks disk-wiping commands) runs on Node. Say so
+    # plainly when it can't run - never silently.
+    if ((Get-NodeVersionNumber) -eq 0) {
+        Write-Note "Note: the safety net (blocks dangerous delete commands) needs Node.js, which is not installed."
+        Write-Note "Luu y: luoi an toan (chan lenh xoa nguy hiem) can Node.js - may nay chua co."
+        Write-Note "  Add it anytime: winget install --id OpenJS.NodeJS.LTS -e   (or re-run this installer)"
+    }
+
+    # Record the outcome for /health and /uninstall.
     $b = @{ $true = 'true'; $false = 'false' }
     Write-InstallManifest 'claude' ("{ ""plugin"": true, ""documentsPack"": " + $b[$docsOk] + ", ""browsing"": " + $b[$chromeOk] + ", ""smartMemory"": " + $b[$memOk] + ", ""obsidian"": " + $b[$obsOk] + " }")
 
@@ -394,9 +412,9 @@ function Install-ClaudeEngine {
     Write-Host "     Go:    claude        (roi nhan Enter)"
     Write-Host ""
     Write-Host "  2. Log in when the browser opens."
-    Write-Host "     (A paid Claude plan - Pro or Max - is required.)"
+    Write-Host "     (A paid Claude plan - Pro or higher - is required.)"
     Write-Host "     Dang nhap khi trinh duyet mo ra."
-    Write-Host "     (Can tai khoan Claude tra phi - Pro hoac Max.)"
+    Write-Host "     (Can tai khoan Claude tra phi - goi Pro tro len.)"
     Write-Host ""
 
     # Referral shown ONLY when no Claude login is detected on this machine.
@@ -410,6 +428,9 @@ function Install-ClaudeEngine {
     Write-Host ""
     Write-Host "  Then try: drop a PDF on it, or say 'make me an Excel file' - it can." -ForegroundColor Green
     Write-Host "  Sau do thu: gui file PDF cho no, hoac noi 'lam cho toi file Excel' - no lam duoc." -ForegroundColor Green
+    Write-Host ""
+    Write-Host "  Something feels off? Type /health - it checks and fixes your assistant."
+    Write-Host "  Co gi la? Go /health - tro ly tu kiem tra va tu sua."
     Write-Host ""
     Write-Host "  Tip: if `claude` is not recognized in a new window, log out"
     Write-Host "  and back in to Windows once so PATH refreshes."
@@ -571,7 +592,7 @@ function Install-OllamaEngine {
         Write-Note "Khong tao duoc shortcut - lenh 'souldrop' van dung duoc."
     }
 
-    # Record the outcome for /doctor and /uninstall.
+    # Record the outcome for /health and /uninstall.
     Write-InstallManifest 'ollama' ("{ ""launcher"": true, ""model"": ""$Model"" }")
 
     # ---------------------------------------------------------------
@@ -608,7 +629,11 @@ function Install-OllamaEngine {
 #  ENGINE AUTO-DETECT - the only human decision in the whole install
 # =====================================================================
 
-if (Test-ClaudeInstalled) {
+if ($env:SOULDROP_ENGINE -eq 'pro') {
+    Install-ClaudeEngine
+} elseif ($env:SOULDROP_ENGINE -eq 'free') {
+    Install-OllamaEngine
+} elseif (Test-ClaudeInstalled) {
     # Claude Code already on this machine -> best engine, zero questions.
     Write-Host ""
     Write-Host "  Claude Code detected - using the Pro engine. / Da co Claude Code - dung ban Pro." -ForegroundColor Green

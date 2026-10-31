@@ -22,17 +22,23 @@
 #       installs the `souldrop` chat launcher.
 #
 #  Requirements: macOS 13+ / Ubuntu 20.04+, internet.
-#  PRO only: a paid Claude plan (Pro/Max) for the login step afterwards.
+#  PRO only: a paid Claude plan (Pro or higher) for the login step afterwards.
 #  Safe to re-run. / Chay lai bao nhieu lan cung an toan.
+#
+#  Optional, for scripts/testing (normal users never need these):
+#    SOULDROP_ENGINE=pro|free   skip the one question
+#    SOULDROP_REF=<branch|tag>  install the plugin from that branch/tag
 # =====================================================================
 set -u
 
-SOULDROP_VERSION="0.6.0"
+SOULDROP_VERSION="0.7.0"
 REPO_OWNER="kkitkai"
+SOULDROP_REF="${SOULDROP_REF:-main}"
 MARKETPLACE_REPO="$REPO_OWNER/souldrop"
+[ "$SOULDROP_REF" = "main" ] || MARKETPLACE_REPO="$REPO_OWNER/souldrop#$SOULDROP_REF"
 MARKETPLACE_NAME="souldrop"
 PLUGIN_NAME="souldrop"
-RAW_BASE="https://raw.githubusercontent.com/$REPO_OWNER/souldrop/main"
+RAW_BASE="https://raw.githubusercontent.com/$REPO_OWNER/souldrop/$SOULDROP_REF"
 REFERRAL_URL="https://claude.ai/referral/QbA1I722cA"
 
 step() { printf '\n\033[36m==> %s\033[0m\n' "$1"; }
@@ -49,7 +55,7 @@ claude_installed() {
   command -v claude >/dev/null 2>&1 || [ -x "$HOME/.local/bin/claude" ]
 }
 
-# Record what this run installed to ~/.souldrop/installed.json — /doctor and
+# Record what this run installed to ~/.souldrop/installed.json — /health and
 # /uninstall read it. Non-blocking (a failed write hurts nothing).
 write_install_manifest() {
   # $1 = engine, $2 = items JSON fragment
@@ -62,6 +68,23 @@ write_install_manifest() {
   "items": $2
 }
 MANIFEST
+}
+
+# Install a plugin from its marketplace, newest Claude Code way first:
+#   claude plugin install <plugin> --marketplace <source>   (2.1.292+)
+# then the classic two-step for older versions. On a re-run it refreshes
+# the marketplace and updates the plugin. Quiet; returns 0 on success.
+#   $1 = plugin, $2 = marketplace source (owner/repo[#ref]), $3 = marketplace name
+plugin_from_marketplace() {
+  if claude plugin install "$1" --marketplace "$2" >/dev/null 2>&1; then
+    claude plugin marketplace update "$3" >/dev/null 2>&1 || true
+    claude plugin update "$1@$3" >/dev/null 2>&1 || true
+    return 0
+  fi
+  claude plugin marketplace add "$2" >/dev/null 2>&1 \
+    || claude plugin marketplace update "$3" >/dev/null 2>&1 || true
+  claude plugin install "$1@$3" >/dev/null 2>&1 \
+    || claude plugin update "$1@$3" >/dev/null 2>&1
 }
 
 referral_line() {
@@ -78,7 +101,7 @@ install_claude_engine() {
   # ---------------------------------------------------------------
   # Step 1 — Claude Code itself (official Anthropic installer)
   # ---------------------------------------------------------------
-  step "Step 1/6: Checking Claude Code... / Kiem tra Claude Code..."
+  step "Step 1/5: Checking Claude Code... / Kiem tra Claude Code..."
 
   if claude_installed; then
     ok "Claude Code is already installed. / Claude Code da duoc cai dat."
@@ -113,10 +136,19 @@ install_claude_engine() {
   fi
   ok "claude found: $(command -v claude)"
 
+  # SoulDrop uses features from Claude Code 2.1.295+ (safety-net fail-open,
+  # one-step plugin install). Older? Run Claude Code's own updater once.
+  CC_VER="$(claude --version 2>/dev/null | awk '{print $1}')"
+  CC_PATCH="$(printf '%s' "$CC_VER" | awk -F. '$1 == 2 && $2 == 1 { print $3 + 0; exit } ($1 > 2) || ($1 == 2 && $2 > 1) { print 9999; exit } { print 0 }')"
+  if [ -n "$CC_VER" ] && [ "${CC_PATCH:-0}" -lt 295 ] 2>/dev/null; then
+    note "Claude Code $CC_VER is a bit old - updating it (official updater)... / Claude Code hoi cu - dang cap nhat..."
+    claude update >/dev/null 2>&1 || note "Update skipped - SoulDrop still installs fine. / Bo qua cap nhat - SoulDrop van cai binh thuong."
+  fi
+
   # ---------------------------------------------------------------
   # Step 2 — Add the plugin marketplace (idempotent)
   # ---------------------------------------------------------------
-  step "Step 2/6: Adding the SoulDrop marketplace... / Them kho plugin SoulDrop..."
+  step "Step 2/5: Installing the SoulDrop plugin... / Cai plugin SoulDrop..."
 
   # `marketplace add` clones this repo with git — beginners should never have
   # to install git themselves. Auto-install where we safely can; never block.
@@ -144,30 +176,13 @@ install_claude_engine() {
     fi
   fi
 
-  if claude plugin marketplace add "$MARKETPLACE_REPO" >/dev/null 2>&1; then
-    ok "Marketplace added. / Da them kho plugin."
-  elif claude plugin marketplace update "$MARKETPLACE_NAME" >/dev/null 2>&1; then
-    ok "Marketplace already present - refreshed. / Kho plugin da co - da cap nhat."
+  if plugin_from_marketplace "$PLUGIN_NAME" "$MARKETPLACE_REPO" "$MARKETPLACE_NAME"; then
+    ok "SoulDrop plugin installed. / Da cai plugin SoulDrop."
   else
-    note "Could not add or update the marketplace. Check internet + repo:"
-    note "Khong them duoc kho plugin. Kiem tra mang va repo:"
-    note "  https://github.com/$MARKETPLACE_REPO"
+    note "Could not install the SoulDrop plugin. Check internet, then re-run this command."
+    note "Khong cai duoc plugin SoulDrop. Kiem tra mang roi chay lai lenh nay."
+    note "  (Or inside Claude Code: /plugin install souldrop@souldrop  after  /plugin marketplace add $MARKETPLACE_REPO)"
     exit 1
-  fi
-
-  # ---------------------------------------------------------------
-  # Step 3 — Install the SoulDrop plugin (idempotent)
-  # ---------------------------------------------------------------
-  step "Step 3/6: Installing the SoulDrop plugin... / Cai plugin SoulDrop..."
-
-  if claude plugin install "$PLUGIN_NAME@$MARKETPLACE_NAME" >/dev/null 2>&1; then
-    ok "Plugin '$PLUGIN_NAME' installed. / Da cai plugin '$PLUGIN_NAME'."
-  elif claude plugin update "$PLUGIN_NAME" >/dev/null 2>&1; then
-    ok "Plugin already installed - updated. / Plugin da co - da cap nhat."
-  else
-    note "Plugin install failed. Try manually inside Claude Code:"
-    note "Cai plugin that bai. Thu thu cong trong Claude Code:"
-    note "  /plugin install $PLUGIN_NAME@$MARKETPLACE_NAME"
   fi
 
   # ---------------------------------------------------------------
@@ -175,39 +190,37 @@ install_claude_engine() {
   # Fully automatic, fully non-blocking: any failure = one friendly
   # line, keep going. The user never installs anything themselves.
   # ---------------------------------------------------------------
-  step "Step 4/6: Everyday superpowers (documents + browsing)... / Sieu nang luc hang ngay (tai lieu + luot web)..."
+  step "Step 3/5: Everyday superpowers (documents + browsing)... / Sieu nang luc hang ngay (tai lieu + luot web)..."
 
-  node_major() {
+  # Node version as a comparable number: v20.19.1 -> 2019 (0 = no node).
+  node_ver() {
     command -v node >/dev/null 2>&1 || { echo 0; return; }
-    node -v 2>/dev/null | sed 's/^v//' | cut -d. -f1 | grep -E '^[0-9]+$' || echo 0
+    node -v 2>/dev/null | sed 's/^v//' | awk -F. '$1 ~ /^[0-9]+$/ { printf "%d", $1 * 100 + $2; exit }' | grep -E '^[0-9]+$' || echo 0
   }
 
-  # Node 20+ powers two optional extras (browsing + smart memory).
-  # macOS: install via brew when missing. Linux: never auto-sudo — skip.
+  # Node 20.19+ powers the optional extras (browsing needs >= 20.19, smart
+  # memory 20+) and the safety net. macOS: install via brew when missing or
+  # too old. Linux: never auto-sudo - skip (and say so).
   ensure_node() {
-    NODE_MAJOR="$(node_major)"
-    if [ "$NODE_MAJOR" -lt 20 ] 2>/dev/null; then
+    NODE_VER="$(node_ver)"
+    if [ "$NODE_VER" -lt 2019 ] 2>/dev/null; then
       if [ "$(uname -s)" = "Darwin" ] && command -v brew >/dev/null 2>&1; then
         note "Adding Node.js (a helper tool)... / Dang cai Node.js (cong cu ho tro)..."
-        brew install node >/dev/null 2>&1 || true
-        NODE_MAJOR="$(node_major)"
+        brew install node >/dev/null 2>&1 || brew upgrade node >/dev/null 2>&1 || true
+        NODE_VER="$(node_ver)"
       fi
     fi
   }
 
-  # 4a. Anthropic document skills — real Word/Excel/PowerPoint/PDF files.
+  # 3a. Anthropic document skills — real Word/Excel/PowerPoint/PDF files.
   # Installed from Anthropic's OWN marketplace, never vendored (their
   # document skills are source-available; install-only is the legal path).
   DOCS_OK=0
-  claude plugin marketplace add anthropics/skills >/dev/null 2>&1 \
-    || claude plugin marketplace update anthropic-agent-skills >/dev/null 2>&1 || true
-  if claude plugin install document-skills@anthropic-agent-skills >/dev/null 2>&1 \
-     || claude plugin update document-skills >/dev/null 2>&1; then
+  if plugin_from_marketplace document-skills anthropics/skills anthropic-agent-skills; then
     DOCS_OK=1
   fi
   # Creative extras (posters/graphics, incl. canvas-design; Apache-2.0).
-  claude plugin install example-skills@anthropic-agent-skills >/dev/null 2>&1 \
-    || claude plugin update example-skills >/dev/null 2>&1 || true
+  plugin_from_marketplace example-skills anthropics/skills anthropic-agent-skills || true
   if [ "$DOCS_OK" -eq 1 ]; then
     ok "Documents pack ready - your assistant can make real Word/Excel/PowerPoint/PDF files."
     ok "Goi tai lieu san sang - tro ly lam duoc file Word/Excel/PowerPoint/PDF that."
@@ -216,9 +229,9 @@ install_claude_engine() {
     note "Bo qua goi tai lieu - tro ly van doc PDF va viet van ban binh thuong."
   fi
 
-  # 4b. Browsing power (chrome-devtools MCP, by Google — no account, no
+  # 3b. Browsing power (chrome-devtools MCP, by Google — no account, no
   # key). It drives the user's REAL Chrome — it never downloads one — so
-  # only offer it when Chrome is already installed. Needs Node 20+ (npx).
+  # only offer it when Chrome is already installed. Needs Node 20.19+ (npx).
   chrome_installed() {
     if [ "$(uname -s)" = "Darwin" ]; then
       [ -d "/Applications/Google Chrome.app" ]
@@ -235,7 +248,7 @@ install_claude_engine() {
       CHROME_OK=1   # already registered on a previous run
     else
       ensure_node
-      if [ "$NODE_MAJOR" -ge 20 ] 2>/dev/null; then
+      if [ "$NODE_VER" -ge 2019 ] 2>/dev/null; then
         if claude mcp add chrome-devtools --scope user -- npx chrome-devtools-mcp@latest >/dev/null 2>&1; then
           CHROME_OK=1
         fi
@@ -256,20 +269,17 @@ install_claude_engine() {
   # Step 5 — OPTIONAL: smart memory (agentmemory). Fully automatic,
   # fully non-blocking: any failure = one friendly line, keep going.
   # ---------------------------------------------------------------
-  step "Step 5/6: Smart memory (optional extra)... / Bo nho thong minh (tuy chon)..."
+  step "Step 4/5: Smart memory (optional extra)... / Bo nho thong minh (tuy chon)..."
 
   MEM_OK=0
   # agentmemory (Apache-2.0, github.com/rohitg00/agentmemory) needs Node 20+.
   ensure_node
-  if [ "$NODE_MAJOR" -ge 20 ] 2>/dev/null; then
+  if [ "$NODE_VER" -ge 2000 ] 2>/dev/null; then
     # agentmemory writes its data store relative to the CURRENT directory —
     # run the install from a stable home dir so memories survive restarts.
     mkdir -p "$HOME/.agentmemory" 2>/dev/null || true
-    if ( cd "$HOME/.agentmemory" 2>/dev/null && {
-          claude plugin marketplace add rohitg00/agentmemory >/dev/null 2>&1 || true
-          claude plugin install agentmemory >/dev/null 2>&1 \
-            || claude plugin install agentmemory@agentmemory >/dev/null 2>&1
-        } ); then
+    if ( cd "$HOME/.agentmemory" 2>/dev/null \
+          && plugin_from_marketplace agentmemory rohitg00/agentmemory agentmemory ); then
       MEM_OK=1
     fi
   fi
@@ -285,7 +295,7 @@ install_claude_engine() {
   # Step 6 — OPTIONAL: Obsidian note app (for the second brain).
   # Same rule: automatic, never blocks, friendly skip on failure.
   # ---------------------------------------------------------------
-  step "Step 6/6: Obsidian note app (optional extra)... / Ung dung Obsidian (tuy chon)..."
+  step "Step 5/5: Obsidian note app (optional extra)... / Ung dung Obsidian (tuy chon)..."
 
   OBS_OK=0
   if [ "$(uname -s)" = "Darwin" ]; then
@@ -307,7 +317,18 @@ install_claude_engine() {
     note "Bo qua Obsidian - ghi chu van hoat dong dang file. Tai sau tai obsidian.md"
   fi
 
-  # Record the outcome for /doctor and /uninstall.
+  # The safety net (blocks disk-wiping commands) runs on Node. Say so
+  # plainly when it can't run - never silently.
+  if [ "$(node_ver)" -eq 0 ] 2>/dev/null; then
+    note "Note: the safety net (blocks dangerous delete commands) needs Node.js, which is not installed."
+    note "Luu y: luoi an toan (chan lenh xoa nguy hiem) can Node.js - may nay chua co."
+    if [ "$(uname -s)" = "Linux" ]; then
+      note "  Add it yourself anytime (you type the password, never us): sudo apt-get install -y nodejs"
+      note "  Tu cai bat cu luc nao (ban tu go mat khau): sudo apt-get install -y nodejs"
+    fi
+  fi
+
+  # Record the outcome for /health and /uninstall.
   tf() { if [ "$1" -eq 1 ] 2>/dev/null; then echo true; else echo false; fi; }
   write_install_manifest claude "{ \"plugin\": true, \"documentsPack\": $(tf "$DOCS_OK"), \"browsing\": $(tf "$CHROME_OK"), \"smartMemory\": $(tf "$MEM_OK"), \"obsidian\": $(tf "$OBS_OK") }"
 
@@ -321,9 +342,9 @@ install_claude_engine() {
   printf '  1. Type:  claude        (then press Enter)\n'
   printf '     Go:    claude        (roi nhan Enter)\n\n'
   printf '  2. Log in when the browser opens.\n'
-  printf '     (A paid Claude plan - Pro or Max - is required.)\n'
+  printf '     (A paid Claude plan - Pro or higher - is required.)\n'
   printf '     Dang nhap khi trinh duyet mo ra.\n'
-  printf '     (Can tai khoan Claude tra phi - Pro hoac Max.)\n\n'
+  printf '     (Can tai khoan Claude tra phi - goi Pro tro len.)\n\n'
 
   # Referral shown ONLY when no Claude login is detected on this machine.
   if [ ! -f "$HOME/.claude/.credentials.json" ] \
@@ -335,6 +356,8 @@ install_claude_engine() {
   printf '     de tao tro ly AI ca nhan cua rieng ban.\n\n'
   printf '\033[32m  Then try: drop a PDF on it, or say "make me an Excel file" - it can.\n'
   printf '  Sau do thu: gui file PDF cho no, hoac noi "lam cho toi file Excel" - no lam duoc.\033[0m\n\n'
+  printf '  Something feels off? Type /health - it checks and fixes your assistant.\n'
+  printf '  Co gi la? Go /health - tro ly tu kiem tra va tu sua.\n\n'
 }
 
 # =====================================================================
@@ -457,7 +480,7 @@ install_ollama_engine() {
       ;;
   esac
 
-  # Record the outcome for /doctor and /uninstall.
+  # Record the outcome for /health and /uninstall.
   write_install_manifest ollama "{ \"launcher\": true, \"model\": \"$MODEL\" }"
 
   # ---------------------------------------------------------------
@@ -484,7 +507,12 @@ install_ollama_engine() {
 #  ENGINE AUTO-DETECT — the only human decision in the whole install
 # =====================================================================
 
-if claude_installed; then
+SOULDROP_ENGINE="${SOULDROP_ENGINE:-}"
+if [ "$SOULDROP_ENGINE" = "pro" ]; then
+  install_claude_engine
+elif [ "$SOULDROP_ENGINE" = "free" ]; then
+  install_ollama_engine
+elif claude_installed; then
   # Claude Code already on this machine -> best engine, zero questions.
   printf '\n\033[32m  Claude Code detected - using the Pro engine. / Da co Claude Code - dung ban Pro.\033[0m\n'
   install_claude_engine
