@@ -61,3 +61,18 @@ they'd say to trigger it (NOT the raw file). On a yes, write
 
 Mention that `learn-from-mistakes` will keep sharpening it as they correct
 its output.
+
+## Changing a skill later — edit, don't remake
+
+Once the user has approved a skill, it is LOCKED. When they want a change:
+
+1. Back up the current file next to it (`SKILL.md.v1`, `SKILL.md.v2`, …) —
+   never delete an old version; the user decides what to clean up.
+2. Write down in one short list what changes and what stays the same.
+3. Change one thing at a time, inside the existing file. Never regenerate the
+   whole skill from scratch.
+4. Show the change in plain words, and say how to go back ("say 'undo the
+   last skill change' and I'll restore v2").
+
+If the user is choosing between versions or ideas, show them side by side,
+numbered, and let them pick.

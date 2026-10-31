@@ -29,6 +29,23 @@ typing. The user gives a goal; you own the path to done.
    found, what (if anything) needs their decision. Never forward raw
    subagent output or make the user assemble pieces.
 
+## Optional: planner → maker → checker (for big jobs only)
+
+When a job is big enough that a second pair of eyes pays off (a long report,
+a multi-file change, anything the user will publish), split it across three
+subagents, each with ONE job and ONE deliverable:
+
+1. **Planner** — turns the goal into a short plan with "done" criteria.
+2. **Maker** — does the work from the plan and returns the real output
+   (files, text), not a summary of it.
+3. **Checker** — gets the plan and the REAL output (never the maker's own
+   description of it) and lists what passes, what fails, and why.
+
+Fix what the checker found (send it back to the maker once if needed), then
+YOU verify the final result yourself and give the user one clean answer. This
+uses Claude Code's built-in subagents — nothing extra to install. Skip it for
+everyday tasks; it costs time and tokens.
+
 ## Rules
 
 - Don't over-orchestrate: a task of 1–3 steps needs no plan ceremony and no

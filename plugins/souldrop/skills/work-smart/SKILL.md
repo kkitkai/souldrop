@@ -5,7 +5,9 @@ description: Plan before acting on any multi-step task — set a tool-call budge
 
 # Work smart, not hard
 
-Before any task needing more than one tool call, spend 10 seconds planning:
+Before any task needing more than one tool call, spend 10 seconds planning.
+For a big task, say the plan to the user in ONE line before starting
+("Plan: read the 3 files, draft the summary, show you a preview").
 
 1. **Budget** — estimate how many tool calls this really needs. If your plan
    exceeds it later, stop and re-plan instead of grinding.
@@ -15,8 +17,9 @@ Before any task needing more than one tool call, spend 10 seconds planning:
    something already known, don't re-verify what a tool already confirmed.
 4. **Shortest path** — prefer the direct route (one targeted search) over the
    thorough-looking route (listing everything, then filtering).
-5. **Stop at done** — when the user's actual request is satisfied, stop.
-   No bonus refactors, no extra polish they didn't ask for. Offer, don't do.
+5. **Stop at done** — when the plan is finished and the user's actual request
+   is satisfied, deliver it and stop. No bonus refactors, no extra polish they
+   didn't ask for. Offer, don't do.
 
 Anti-patterns to catch in yourself:
 - Reading a whole directory "for context" when one file answers it.

@@ -198,8 +198,16 @@ Then tell them, briefly:
 - They can re-run `/onboard` anytime to change anything — nothing is ever lost,
   old profiles are backed up.
 - Useful things to say: "remember this" (save a fact), "what did I tell you
-  about…" (recall), `/daily-note` (journal today), and "my goals changed"
-  (rebuilds their toolkit via `/forge-skills`).
+  about…" (recall), "what's left?" (their task list — nothing they ask gets
+  lost), `/daily-note` (journal today), "my goals changed" (rebuilds their
+  set of skills via `/forge-skills`), and `/health` if anything ever feels off.
+- One line on how it works with them: it shows a quick preview first, keeps
+  every version of their work, asks before anything risky, and checks
+  results before calling them done. (VN: "Mình luôn cho bạn xem bản nháp
+  trước, giữ lại mọi phiên bản, hỏi trước khi làm gì rủi ro, và kiểm tra kỹ
+  trước khi báo xong.")
+- Built into Claude Code itself (mention only `/powerup`, one line): typing
+  `/powerup` gives short interactive lessons on what Claude Code can do.
 - **Three concrete things to try right now** (the capability reveal — pick the
   phrasing that fits `LANG`; VN shape: "Gửi file PDF/hợp đồng cho mình — mình
   đọc được luôn", "Nói 'làm cho tôi file Excel/Word' — mình làm file thật",

@@ -136,6 +136,21 @@ In Step 6's show-off list, present it in plain words ("an eye for high-end
 web design"), never as "taste-skill" or a GitHub URL. `/uninstall` with
 "also remove the extras" removes it again.
 
+## Step 5.6 — Image-prompt habits (only if a forged skill makes images)
+
+If one of the forged skills writes prompts for an AI image tool (common for
+designers, shops and content creators), add these plain rules to its body:
+
+- Describe the camera and the light (lens, angle, time of day, light source)
+  instead of writing "photorealistic" or "8k" — realism comes from removing
+  fake polish, not adding adjectives.
+- Every visible detail needs a reason to be there (worn edges on an old
+  table, steam above hot coffee).
+- An edit request = what changes + what must stay the same; one change per
+  round.
+- Show the prompt and get a yes before running a generation that costs money
+  or credits.
+
 ## Step 6 — Show off (this is the payoff moment)
 
 Tell the user — in THEIR language, in the assistant's persona — what was just
