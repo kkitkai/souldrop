@@ -16,7 +16,7 @@
 <br>
 
 [![CI](https://img.shields.io/github/actions/workflow/status/kkitkai/souldrop/validate.yml?branch=main&style=flat-square&label=CI&labelColor=20242C)](https://github.com/kkitkai/souldrop/actions/workflows/validate.yml)
-[![Version](https://img.shields.io/badge/version-0.6.0-E8B04B?style=flat-square&labelColor=20242C)](CHANGELOG.md)
+[![Version](https://img.shields.io/badge/version-0.7.0-E8B04B?style=flat-square&labelColor=20242C)](CHANGELOG.md)
 [![License: MIT](https://img.shields.io/badge/license-MIT-2FD6C3?style=flat-square&labelColor=20242C)](LICENSE)
 ![Platform](https://img.shields.io/badge/platform-Windows%20%C2%B7%20macOS%20%C2%B7%20Linux-4A5568?style=flat-square&labelColor=20242C)
 ![Languages](https://img.shields.io/badge/languages-EN%20%C2%B7%20VI%20%C2%B7%20TH%20%C2%B7%20KO%20%C2%B7%20ZH-E8B04B?style=flat-square&labelColor=20242C)
@@ -94,7 +94,7 @@ Những việc thường ngày, chỉ cần nói chuyện bình thường. Các 
 </tr>
 </table>
 
-<!-- TODO(Nick): replace these illustration cards with real captured session
+<!-- Maintainers: replace these illustration cards with real captured session
      screenshots/recordings (Vietnamese) once the demo sessions are recorded. -->
 
 ## 🧭 Hướng dẫn từng bước cho người mới hoàn toàn
@@ -150,7 +150,7 @@ Bạn **đã chat với Claude qua app Claude Desktop rồi**? Vậy bạn có t
 | Sức mạnh | Đầy đủ kỹ năng SoulDrop | Đầy đủ + tự động hóa sâu hơn |
 
 **Cách A — Claude Desktop (không cần terminal):**
-1. Tải app tại [claude.com/download](https://claude.com/download) và đăng nhập (cần gói Pro/Max).
+1. Tải app tại [claude.com/download](https://claude.com/download) và đăng nhập (cần gói trả phí, từ Pro trở lên).
 2. Bấm tab **Code** trên thanh trên cùng của app, chọn **Local**.
 3. Gõ lần lượt hai lệnh này vào ô chat (copy từng dòng, dán, Enter):
    ```
@@ -179,7 +179,7 @@ Trình cài đặt SoulDrop **đã tự cài Ollama giúp bạn** — mục này
 
 ### 🎬 Video hướng dẫn
 
-<!-- TODO(Nick): drag the final .mp4 files into the GitHub web editor and paste
+<!-- Maintainers: drag the final .mp4 files into the GitHub web editor and paste
      the generated https://github.com/user-attachments/assets/... URLs on their
      own lines right below this comment — that is the ONLY form GitHub renders
      as an inline video player (repo-committed .mp4 files do NOT render).
@@ -190,14 +190,14 @@ Trình cài đặt SoulDrop **đã tự cài Ollama giúp bạn** — mục này
 ## 🧠 Chọn động cơ của bạn
 
 <p align="center">
-  <img src="assets/engines.svg" alt="Một bộ não nuôi nhiều động cơ — Claude Code (Pro), Ollama (Miễn phí, tại máy), và nhiều hơn ở v0.6" width="780">
+  <img src="assets/engines.svg" alt="Một bộ não nuôi nhiều động cơ — Claude Code (Pro), Ollama (Miễn phí, tại máy), và nhiều hơn trong kế hoạch" width="780">
 </p>
 
 SoulDrop tách **bộ não** (trợ lý của bạn là ai — các file markdown thuần thuộc về bạn) khỏi **động cơ** (thứ chạy nó). Cùng một linh hồn, động cơ nào cũng được:
 
 | Động cơ | Chi phí | Bạn nhận được gì |
 |---|---|---|
-| **Pro — [Claude Code](https://code.claude.com)** | Tài khoản Claude trả phí (Pro/Max) | Bậc thông minh nhất: đủ bộ kỹ năng, **tự rèn kỹ năng riêng** cho nghề của bạn, làm file Word/Excel/PowerPoint/PDF thật, lướt web qua Chrome của bạn, subagent |
+| **Pro — [Claude Code](https://code.claude.com)** | Tài khoản Claude trả phí (Pro trở lên) | Bậc thông minh nhất: đủ bộ kỹ năng, **tự rèn kỹ năng riêng** cho nghề của bạn, làm file Word/Excel/PowerPoint/PDF thật, lướt web qua Chrome của bạn, subagent |
 | **Miễn phí — [Ollama](https://ollama.com) (chạy tại máy)** | **0đ, không cần tài khoản** | Trợ lý thật sự chạy 100% trên máy của bạn: tính cách, bộ nhớ, "nhớ ...", bộ não thứ hai. Riêng tư mặc định |
 | Codex · Antigravity · OpenClaw | — | 🔜 trong kế hoạch |
 
@@ -207,7 +207,7 @@ Bạn không phải chọn gì mang tính kỹ thuật — trình cài đặt **
 
 - Windows 10 1809+ / macOS 13+ / Ubuntu 20.04+, có internet lúc cài
 - **Bản Miễn phí:** không cần gì thêm. Khoảng 2–5 GB ổ đĩa cho model AI (tự chọn vừa với RAM của máy)
-- **Bản Pro:** tài khoản Claude trả phí (Pro, Max hoặc Team) — [claude.ai](https://claude.ai)
+- **Bản Pro:** tài khoản Claude trả phí (Pro trở lên) — [claude.ai](https://claude.ai). Claude Code bản 2.1.295 trở lên (trình cài đặt tự cập nhật bản cũ giúp bạn)
 - **Chưa có Claude?** Dùng thử Pro 7 ngày miễn phí → [claude.ai/referral/QbA1I722cA](https://claude.ai/referral/QbA1I722cA) *(link giới thiệu — ủng hộ dự án này)*
 
 ## 🔁 Một bộ não, nhiều động cơ
@@ -219,21 +219,47 @@ Bộ não là **markdown thuần — động cơ nào cũng thay được**: fil
 | Kỹ năng | Công dụng |
 |---|---|
 | `/onboard` | Cuộc phỏng vấn tạo trợ lý cá nhân hóa + bộ nhớ + kỹ năng riêng + bộ não thứ hai — bằng tiếng Anh, Việt, Thái, Hàn, Trung, hoặc ngôn ngữ của riêng bạn |
-| `forge-skills` | **Tự động tạo 3–5 kỹ năng riêng cho nghề nghiệp và mục tiêu của bạn** — chạy tự động cuối `/onboard`; chạy lại bất cứ lúc nào bằng `/forge-skills`. Với nghề thiết kế/nội dung, nó còn thêm 1–2 kỹ năng "gu thẩm mỹ" chuyên nghiệp từ bộ mã nguồn mở [taste-skill](https://github.com/Leonxlnx/taste-skill) (MIT) |
-| `/doctor` | **Kiểm tra sức khỏe** — soát động cơ, plugin, hồ sơ, bộ nhớ, bộ não thứ hai và các phần mở rộng, lặng lẽ tự sửa được gì thì sửa, rồi in một báo cáo thân thiện. Nói "trợ lý bị lỗi" là nó chạy |
+| `forge-skills` | **Tự động tạo 3–5 kỹ năng riêng cho nghề nghiệp và mục tiêu của bạn** — chạy tự động cuối `/onboard`; chạy lại bất cứ lúc nào bằng `/forge-skills`. Với nghề thiết kế web/app, nó còn cài thêm plugin "gu thẩm mỹ" mã nguồn mở [taste-skill](https://github.com/Leonxlnx/taste-skill) (MIT) |
+| `/health` | **Kiểm tra sức khỏe** — soát động cơ, plugin, hồ sơ, bộ nhớ, bộ não thứ hai, lưới an toàn và các phần mở rộng, lặng lẽ tự sửa được gì thì sửa, rồi in một báo cáo thân thiện. Nói "trợ lý bị lỗi" là nó chạy. *(Trước v0.7 tên là `/doctor` — giờ `/doctor` là lệnh có sẵn của Claude Code, chỉ kiểm tra chính Claude Code.)* |
+| `/todo` | **Không việc nào bị quên** — mỗi yêu cầu thành một dòng trong danh sách việc (đang làm / chờ bạn / xong) cho tới khi giao kết quả. Hỏi *"còn gì chưa xong?"* bất cứ lúc nào |
+| `check-before-install` | Trước khi cài app, tiện ích hay công cụ nào: kiểm tra có đúng hàng thật không, ai làm, giấy phép, cập nhật gần nhất, có báo lỗi/lừa đảo không — giải thích bằng lời dễ hiểu, chỉ cài khi bạn đồng ý |
 | `/uninstall` | Gỡ SoulDrop và các phần mở rộng sạch sẽ — hồ sơ, ký ức và ghi chú của bạn **luôn được giữ lại** |
 | `create-skill` | Dạy trợ lý một khả năng mới bằng cách mô tả nó — trợ lý tự viết và cài kỹ năng (cùng tiêu chuẩn chất lượng với forge) |
 | `remember` | Lưu thông tin/sở thích vào bộ nhớ dài hạn của trợ lý |
 | `recall` | Tìm lại những gì bạn từng nói với nó |
-| `learn-from-mistakes` | Biến những lần bạn sửa lỗi thành quy tắc vĩnh viễn |
+| `learn-from-mistakes` | Biến những lần bạn sửa lỗi thành quy tắc vĩnh viễn — và sửa luôn kỹ năng gây ra lỗi (có sao lưu) |
 | `daily-note` | Nhật ký đơn giản mỗi ngày |
 | `work-smart` | Bắt trợ lý lên kế hoạch trước khi làm, tránh bước thừa |
 | `personal` | Nền tảng trợ lý cá nhân: tính cách nhất quán, thói quen ghi nhớ, trung thực, ranh giới an toàn |
-| `leader` | Cho việc lớn: lên kế hoạch, chia nhỏ, giao việc, kiểm tra, báo cáo một câu trả lời gọn |
+| `leader` | Cho việc lớn: lên kế hoạch, chia nhỏ, giao việc, kiểm tra, báo cáo một câu trả lời gọn. Có chế độ tùy chọn lập kế hoạch → làm → kiểm tra cho việc lớn |
 | `/setup-vault` | Tạo (lại) kho ghi chú "bộ não thứ hai" tại `~/second-brain` — sẵn sàng cho Obsidian |
 | `obsidian-markdown` · `obsidian-cli` | Viết và sắp xếp ghi chú đúng chuẩn (wikilink, tag, thao tác file an toàn) |
 
+### 🤝 Trợ lý làm việc với bạn thế nào
+
+Mọi trợ lý SoulDrop tạo ra đều theo cùng những thói quen làm việc — được ghi sẵn trong hồ sơ, bằng ngôn ngữ của bạn:
+
+- **Cho xem trước, không im lặng** — gửi bản nháp/dàn ý trước, rồi mới tới bản đầy đủ; báo tiến độ trung thực ("đã nháp" khác "đã xong").
+- **Sửa, không làm lại từ đầu** — khi bạn nói "ok, thích rồi" (chốt), bản đó được giữ cố định; lần sau chỉ sửa trên bản đó, từng chút một. Mọi phiên bản đều được giữ (`-v2`, `-v3`) — không xóa gì nếu bạn không bảo.
+- **Kiểm tra rồi mới báo "xong"** — xem kết quả thật trước, và nói "mình không biết" khi đúng là không biết. Không bao giờ bịa kết quả.
+- **Bày lựa chọn cạnh nhau** — khi có nhiều phương án, bạn thấy chúng cùng lúc, có đánh số, và bạn chọn.
+- **Thay đổi an toàn** — sao lưu trước khi sửa file và chỉ cách hoàn tác; hỏi trước khi xóa, gửi, thanh toán hay cài đặt; không bao giờ gõ mật khẩu của bạn (bạn tự gõ).
+- **Học từ lỗi** — mỗi lần bạn sửa sai thành một quy tắc được lưu lại để không lặp lại.
+
 Trình cài đặt còn thêm **gói công cụ hằng ngày** — tất cả đều tùy chọn, cài không được thì lặng lẽ bỏ qua: **gói tài liệu** chính thức của Anthropic (trợ lý làm ra file Word/Excel/PowerPoint/PDF thật), **sức mạnh lướt web** qua [chrome-devtools](https://github.com/ChromeDevTools/chrome-devtools-mcp) (chỉ khi máy đã có Chrome — không cần tài khoản, không cần key), kỹ năng đồ họa sáng tạo, và bộ nhớ thông minh. Riêng việc **đọc** PDF thì không cần cài gì cả — có sẵn: cứ gửi file PDF cho trợ lý.
+
+**Lưới an toàn** chặn một danh sách ngắn các lệnh xóa sạch ổ đĩa (như xóa cả ổ hay cả thư mục người dùng) trước khi chúng chạy — cả trong Bash lẫn PowerShell — và hỏi trước khi bỏ các thay đổi chưa lưu. Nó cần Node.js; `/health` sẽ báo nếu lưới an toàn đang tắt.
+
+### Có sẵn trong Claude Code — nên biết
+
+Claude Code có sẵn vài công cụ riêng. SoulDrop không làm lại chúng, chỉ chỉ cho bạn:
+
+| Gõ | Công dụng |
+|---|---|
+| `/powerup` | Các bài hướng dẫn ngắn, tương tác về những gì Claude Code làm được — bước tiếp theo rất hợp sau `/onboard` |
+| `/doctor` | Kiểm tra chính Claude Code (cài đặt, cấu hình). Với trợ lý SoulDrop của bạn, dùng `/health` |
+| `/memory` | Xem và sửa những gì Claude ghi nhớ (ghi chú dự án); còn ký ức *cá nhân* của bạn SoulDrop giữ ở `~/.claude/memory/` |
+| `/insights` | Báo cáo về cách bạn đã dùng Claude Code |
 
 ## 🆓 Bản Miễn phí cho bạn những gì
 

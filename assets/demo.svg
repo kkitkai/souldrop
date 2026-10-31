@@ -152,8 +152,8 @@
 
       <!-- interview -->
       <text class="a-r7"  x="30" y="250"><tspan class="dim">🌐 Which language?</tspan><tspan class="amb" dx="10">›</tspan><tspan class="cmd" dx="8">English</tspan></text>
-      <text class="a-r8"  x="30" y="277"><tspan class="dim">🙂 What should I call you?</tspan><tspan class="amb" dx="10">›</tspan><tspan class="cmd" dx="8">Kit</tspan></text>
-      <text class="a-r9"  x="30" y="304"><tspan class="dim">💼 What do you do?</tspan><tspan class="amb" dx="10">›</tspan><tspan class="cmd" dx="8">Filmmaker &amp; AI builder</tspan></text>
+      <text class="a-r8"  x="30" y="277"><tspan class="dim">🙂 What should I call you?</tspan><tspan class="amb" dx="10">›</tspan><tspan class="cmd" dx="8">Alex</tspan></text>
+      <text class="a-r9"  x="30" y="304"><tspan class="dim">💼 What do you do?</tspan><tspan class="amb" dx="10">›</tspan><tspan class="cmd" dx="8">Wedding photographer</tspan></text>
       <text class="a-r10" x="30" y="331"><tspan class="dim">⭐ Name your assistant</tspan><tspan class="amb" dx="10">›</tspan><tspan class="cmd" dx="8">Jarvis</tspan></text>
 
       <!-- forge -->

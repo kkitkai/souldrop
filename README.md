@@ -16,7 +16,7 @@
 <br>
 
 [![CI](https://img.shields.io/github/actions/workflow/status/kkitkai/souldrop/validate.yml?branch=main&style=flat-square&label=CI&labelColor=20242C)](https://github.com/kkitkai/souldrop/actions/workflows/validate.yml)
-[![Version](https://img.shields.io/badge/version-0.6.0-E8B04B?style=flat-square&labelColor=20242C)](CHANGELOG.md)
+[![Version](https://img.shields.io/badge/version-0.7.0-E8B04B?style=flat-square&labelColor=20242C)](CHANGELOG.md)
 [![License: MIT](https://img.shields.io/badge/license-MIT-2FD6C3?style=flat-square&labelColor=20242C)](LICENSE)
 ![Platform](https://img.shields.io/badge/platform-Windows%20%C2%B7%20macOS%20%C2%B7%20Linux-4A5568?style=flat-square&labelColor=20242C)
 ![Languages](https://img.shields.io/badge/languages-EN%20%C2%B7%20VI%20%C2%B7%20TH%20%C2%B7%20KO%20%C2%B7%20ZH-E8B04B?style=flat-square&labelColor=20242C)
@@ -94,7 +94,7 @@ Everyday things, asked in plain chat. These cards are simplified illustrations o
 </tr>
 </table>
 
-<!-- TODO(Nick): replace these illustration cards with real captured session
+<!-- Maintainers: replace these illustration cards with real captured session
      screenshots/recordings (Vietnamese) once the demo sessions are recorded. -->
 
 ## 🧭 Complete beginner walkthrough
@@ -150,7 +150,7 @@ Already **chatting with Claude in the Claude Desktop app**? Then you can use Sou
 | Power | Full SoulDrop skills | Full + deeper automation |
 
 **Way A — Claude Desktop (no terminal):**
-1. Get the app at [claude.com/download](https://claude.com/download) and sign in (Pro/Max plan required).
+1. Get the app at [claude.com/download](https://claude.com/download) and sign in (a paid plan, Pro or higher, is required).
 2. Click the **Code** tab in the app's top bar, then pick **Local**.
 3. Type these two commands into the prompt box (copy each line, paste, Enter):
    ```
@@ -179,7 +179,7 @@ The SoulDrop installer **already installs Ollama for you** — this is only for 
 
 ### 🎬 Video tutorials
 
-<!-- TODO(Nick): drag the final .mp4 files into the GitHub web editor and paste
+<!-- Maintainers: drag the final .mp4 files into the GitHub web editor and paste
      the generated https://github.com/user-attachments/assets/... URLs on their
      own lines right below this comment — that is the ONLY form GitHub renders
      as an inline video player (repo-committed .mp4 files do NOT render).
@@ -190,14 +190,14 @@ The SoulDrop installer **already installs Ollama for you** — this is only for 
 ## 🧠 Choose your engine
 
 <p align="center">
-  <img src="assets/engines.svg" alt="One brain feeding many engines — Claude Code (Pro), Ollama (Free, local), and more coming in v0.6" width="780">
+  <img src="assets/engines.svg" alt="One brain feeding many engines — Claude Code (Pro), Ollama (Free, local), and more planned" width="780">
 </p>
 
 SoulDrop separates the **brain** (who your assistant is — plain markdown files you own) from the **engine** (what runs it). Same soul, any engine:
 
 | Engine | Cost | What you get |
 |---|---|---|
-| **Pro — [Claude Code](https://code.claude.com)** | Paid Claude plan (Pro/Max) | The smartest tier: full skills, **auto skill-forge** (it builds custom abilities for your profession), real Word/Excel/PowerPoint/PDF files, browsing via your Chrome, subagents |
+| **Pro — [Claude Code](https://code.claude.com)** | Paid Claude plan (Pro or higher) | The smartest tier: full skills, **auto skill-forge** (it builds custom abilities for your profession), real Word/Excel/PowerPoint/PDF files, browsing via your Chrome, subagents |
 | **Free — [Ollama](https://ollama.com) (local)** | **$0, no account** | A real assistant running 100% on your own computer: persona, memory, "remember ...", second brain. Private by default |
 | Codex · Antigravity · OpenClaw | — | 🔜 planned |
 
@@ -207,7 +207,7 @@ You don't have to choose anything technical — the installer **detects Claude C
 
 - Windows 10 1809+ / macOS 13+ / Ubuntu 20.04+, internet for the install
 - **Free engine:** nothing else. ~2–5 GB disk for the AI model (picked automatically to fit your RAM)
-- **Pro engine:** a paid Claude subscription (Pro, Max, or Team) — [claude.ai](https://claude.ai)
+- **Pro engine:** a paid Claude plan (Pro or higher) — [claude.ai](https://claude.ai). Claude Code 2.1.295 or newer (the installer updates an older one for you)
 - **Don't have Claude yet?** Start with a free 7-day Pro trial → [claude.ai/referral/QbA1I722cA](https://claude.ai/referral/QbA1I722cA) *(referral link — supports this project)*
 
 ## 🔁 One brain, many engines
@@ -219,21 +219,47 @@ The brain is **plain markdown — engines are interchangeable**: a persona file 
 | Skill | What it does |
 |---|---|
 | `/onboard` | The interview that creates your personalized assistant + memory + custom skills + second brain — in English, Tiếng Việt, ไทย, 한국어, 中文, or your own language |
-| `forge-skills` | **Auto-builds 3–5 custom skills for your profession and goal** — runs automatically at the end of `/onboard`; re-run anytime with `/forge-skills` or "my goals changed". For design/content professions it also adds 1–2 pro "taste" skills from the open-source [taste-skill](https://github.com/Leonxlnx/taste-skill) collection (MIT) |
-| `/doctor` | **Health check** — verifies engine, plugin, profile, memory, second brain and extras, quietly fixes what it can, and prints one friendly report. Say "something broke" and it runs |
+| `forge-skills` | **Auto-builds 3–5 custom skills for your profession and goal** — runs automatically at the end of `/onboard`; re-run anytime with `/forge-skills` or "my goals changed". For web/app design work it also installs the open-source [taste-skill](https://github.com/Leonxlnx/taste-skill) design plugin (MIT) |
+| `/health` | **Health check** — verifies engine, plugin, profile, memory, second brain, safety net and extras, quietly fixes what it can, and prints one friendly report. Say "something broke" and it runs. *(Was `/doctor` before v0.7 — Claude Code's own `/doctor` now checks Claude Code itself.)* |
+| `/todo` | **Nothing gets lost** — every request becomes a line on one task list (doing / waiting for you / done) until the result is delivered. Ask *"what's left?"* anytime |
+| `check-before-install` | Before installing any app, extension or tool: checks it's the real one, who makes it, licence, last update and trouble reports — explains in plain words, installs only after your yes |
 | `/uninstall` | Cleanly removes SoulDrop and its extras — your profile, memories and notes **always stay** |
 | `create-skill` | Teach your assistant one new ability by describing it — it authors and installs the skill (same quality gate as the forge) |
 | `remember` | Saves facts/preferences to your assistant's long-term memory |
 | `recall` | Finds things you told it before |
-| `learn-from-mistakes` | Turns your corrections into permanent rules |
+| `learn-from-mistakes` | Turns your corrections into permanent rules — and fixes the skill that caused the mistake (with a backup) |
 | `daily-note` | Simple daily journal |
 | `work-smart` | Makes the assistant plan before acting and avoid wasted steps |
 | `personal` | Personal-assistant baseline: consistent persona, memory habits, honesty, safety boundaries |
-| `leader` | For big tasks: plan, break down, delegate, verify, report one clean answer |
+| `leader` | For big tasks: plan, break down, delegate, verify, report one clean answer. Optional planner → maker → checker mode for big jobs |
 | `/setup-vault` | (Re)creates the second-brain note vault at `~/second-brain` — Obsidian-ready |
 | `obsidian-markdown` · `obsidian-cli` | Write and organize vault notes properly (wikilinks, tags, safe file operations) |
 
+### 🤝 How your assistant works with you
+
+Every assistant SoulDrop builds follows the same working habits — written into its profile, in your language:
+
+- **Preview first, never silent** — a quick draft or outline first, then the full result; honest progress ("drafted" is not "finished").
+- **Edit, don't remake** — once you say "I like it", that version is locked; later changes edit it one step at a time. Every version is kept (`-v2`, `-v3`) — nothing is deleted unless you say so.
+- **Checks before saying "done"** — it looks at the real result first, and says "I don't know" when that's true. It never invents a result.
+- **Options side by side** — when there are choices, you see them together, numbered, and you pick.
+- **Safe changes** — backs up before changing a file and tells you how to undo; asks before deleting, sending, paying or installing; never types your password (you type it yourself).
+- **Learns from corrections** — a correction becomes a saved rule so it doesn't happen again.
+
 The installer also adds an **everyday-tools pack** — all optional, all skipped silently if they can't install: Anthropic's official **documents pack** (your assistant makes real Word/Excel/PowerPoint/PDF files), **browsing power** via [chrome-devtools](https://github.com/ChromeDevTools/chrome-devtools-mcp) (only if Chrome is already on your machine — no account, no key), creative graphics skills, and smart memory. And PDF **reading** needs nothing at all — it's built in: just drop a PDF on your assistant.
+
+The **safety net** blocks a short list of disk-wiping commands (like deleting your whole drive or home folder) before they can run — in both Bash and PowerShell — and asks before throwing away unsaved work. It needs Node.js; `/health` tells you if it's off.
+
+### Built into Claude Code itself — good to know
+
+Claude Code ships a few helpers of its own. SoulDrop doesn't copy them; it points you to them:
+
+| Type | What it does |
+|---|---|
+| `/powerup` | Short interactive lessons on what Claude Code can do — a great next step after `/onboard` |
+| `/doctor` | Checks Claude Code itself (install, settings). For your SoulDrop assistant, use `/health` |
+| `/memory` | Shows and edits what Claude remembers (project notes); SoulDrop keeps *your* personal memory in `~/.claude/memory/` |
+| `/insights` | A report on how you've been using Claude Code |
 
 ## 🆓 What the Free engine gives you
 

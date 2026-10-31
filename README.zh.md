@@ -16,7 +16,7 @@
 <br>
 
 [![CI](https://img.shields.io/github/actions/workflow/status/kkitkai/souldrop/validate.yml?branch=main&style=flat-square&label=CI&labelColor=20242C)](https://github.com/kkitkai/souldrop/actions/workflows/validate.yml)
-[![Version](https://img.shields.io/badge/version-0.6.0-E8B04B?style=flat-square&labelColor=20242C)](CHANGELOG.md)
+[![Version](https://img.shields.io/badge/version-0.7.0-E8B04B?style=flat-square&labelColor=20242C)](CHANGELOG.md)
 [![License: MIT](https://img.shields.io/badge/license-MIT-2FD6C3?style=flat-square&labelColor=20242C)](LICENSE)
 ![Platform](https://img.shields.io/badge/platform-Windows%20%C2%B7%20macOS%20%C2%B7%20Linux-4A5568?style=flat-square&labelColor=20242C)
 ![Languages](https://img.shields.io/badge/languages-EN%20%C2%B7%20VI%20%C2%B7%20TH%20%C2%B7%20KO%20%C2%B7%20ZH-E8B04B?style=flat-square&labelColor=20242C)
@@ -94,7 +94,7 @@ curl -fsSL https://raw.githubusercontent.com/kkitkai/souldrop/main/install/go.sh
 </tr>
 </table>
 
-<!-- TODO(Nick): replace these illustration cards with real captured session
+<!-- Maintainers: replace these illustration cards with real captured session
      screenshots/recordings once the demo sessions are recorded. -->
 
 ## 🧭 完全新手的分步教程
@@ -150,7 +150,7 @@ curl -fsSL https://raw.githubusercontent.com/kkitkai/souldrop/main/install/go.sh
 | 能力 | SoulDrop 全部技能 | 全部 + 更深的自动化 |
 
 **方式 A — Claude Desktop (不需要终端):**
-1. 在 [claude.com/download](https://claude.com/download) 下载应用并登录 (需要 Pro/Max 订阅)。
+1. 在 [claude.com/download](https://claude.com/download) 下载应用并登录 (需要 Pro 或更高 订阅)。
 2. 点应用顶栏的 **Code** 标签页，选 **Local**。
 3. 在输入框里依次输入这两条命令 (逐行复制、粘贴、回车):
    ```
@@ -178,7 +178,7 @@ SoulDrop 安装器**已经自动帮你装好 Ollama** — 这一节只给想自�
 
 ### 🎬 视频教程
 
-<!-- TODO(Nick): drag the final .mp4 files into the GitHub web editor and paste
+<!-- Maintainers: drag the final .mp4 files into the GitHub web editor and paste
      the generated user-attachments URLs below — the only form GitHub renders inline. -->
 
 *视频教程(越南语配音)正在路上 — 会出现在这里。在那之前，上面的图解步骤足够你从头装到尾。*
@@ -186,14 +186,14 @@ SoulDrop 安装器**已经自动帮你装好 Ollama** — 这一节只给想自�
 ## 🧠 选择你的引擎
 
 <p align="center">
-  <img src="assets/engines.svg" alt="一个大脑连接多个引擎 — Claude Code (Pro)、Ollama (免费、本地)，v0.6 还有更多" width="780">
+  <img src="assets/engines.svg" alt="一个大脑连接多个引擎 — Claude Code (Pro)、Ollama (免费、本地)，更多在计划中" width="780">
 </p>
 
 SoulDrop 把**大脑**(你的助手是谁 — 属于你的纯 markdown 文件)与**引擎**(运行它的东西)分开。同一个灵魂，任何引擎:
 
 | 引擎 | 费用 | 你得到什么 |
 |---|---|---|
-| **Pro — [Claude Code](https://code.claude.com)** | 付费 Claude 订阅 (Pro/Max) | 最聪明的档位: 完整技能、**自动锻造技能**(为你的职业自动生成专属能力)、生成真正的 Word/Excel/PowerPoint/PDF 文件、用你的 Chrome 上网浏览、子代理 |
+| **Pro — [Claude Code](https://code.claude.com)** | 付费 Claude 订阅 (Pro 或更高) | 最聪明的档位: 完整技能、**自动锻造技能**(为你的职业自动生成专属能力)、生成真正的 Word/Excel/PowerPoint/PDF 文件、用你的 Chrome 上网浏览、子代理 |
 | **免费 — [Ollama](https://ollama.com) (本地)** | **0 元，无需账号** | 100% 在你自己电脑上运行的真助手: 人设、记忆、"记住..."、第二大脑。默认私密 |
 | Codex · Antigravity · OpenClaw | — | 🔜 计划中 |
 
@@ -203,7 +203,7 @@ SoulDrop 把**大脑**(你的助手是谁 — 属于你的纯 markdown 文件)�
 
 - Windows 10 1809+ / macOS 13+ / Ubuntu 20.04+，安装时需联网
 - **免费引擎:** 无其他要求。AI 模型约占 2–5 GB 磁盘(自动按内存大小挑选)
-- **Pro 引擎:** 付费 Claude 订阅 (Pro、Max 或 Team) — [claude.ai](https://claude.ai)
+- **Pro 引擎:** 付费 Claude 订阅 (Pro 或更高) — [claude.ai](https://claude.ai)
 - **还没有 Claude?** 从 7 天免费 Pro 试用开始 → [claude.ai/referral/QbA1I722cA](https://claude.ai/referral/QbA1I722cA) *(推荐链接 — 支持本项目)*
 
 ## 🔁 一个大脑，多个引擎
@@ -215,8 +215,10 @@ SoulDrop 把**大脑**(你的助手是谁 — 属于你的纯 markdown 文件)�
 | 技能 | 作用 |
 |---|---|
 | `/onboard` | 创建个性化助手 + 记忆 + 专属技能 + 第二大脑的访谈 — 支持英语、越南语、泰语、韩语、中文或你自己的语言 |
-| `forge-skills` | **为你的职业和目标自动构建 3–5 个专属技能** — 在 `/onboard` 结束时自动运行，可随时重跑。设计/内容类职业还会从开源 [taste-skill](https://github.com/Leonxlnx/taste-skill) 合集(MIT)额外安装 1–2 个专业"品味"技能 |
-| `/doctor` | **健康检查** — 检查引擎、插件、档案、记忆、第二大脑和扩展功能，能修的悄悄修好，然后打印一份友好的报告。说一句"助手坏了"它就会运行 |
+| `forge-skills` | **为你的职业和目标自动构建 3–5 个专属技能** — 在 `/onboard` 结束时自动运行，可随时重跑。网页/应用设计类工作还会安装开源 [taste-skill](https://github.com/Leonxlnx/taste-skill) 设计插件(MIT) |
+| `/health` | **健康检查** — 检查引擎、插件、档案、记忆、第二大脑、安全网和扩展功能，能修的悄悄修好，然后打印一份友好的报告 *(v0.7 之前叫 `/doctor` — 现在 `/doctor` 是 Claude Code 自带的命令，只检查 Claude Code 本身)* |
+| `/todo` | **一件都不会漏** — 每个请求都会成为任务清单上的一行(进行中 / 等你 / 已完成)，直到交付结果。随时问 *"还剩什么?"* |
+| `check-before-install` | 安装任何应用、扩展或工具之前: 确认是不是正版、谁做的、许可证、最近更新、有没有问题报告 — 用大白话说明，你同意后才安装 |
 | `/uninstall` | 干净地卸载 SoulDrop 及其扩展 — 你的档案、记忆和笔记**始终保留** |
 | `create-skill` | 描述一个新能力，助手自己编写并安装该技能(与锻造同一质量门槛) |
 | `remember` | 把事实/偏好存入助手的长期记忆 |
@@ -228,6 +230,8 @@ SoulDrop 把**大脑**(你的助手是谁 — 属于你的纯 markdown 文件)�
 | `leader` | 面向大任务: 规划、拆解、委派、验证、汇报一个干净的答案 |
 | `/setup-vault` | (重新)创建 `~/second-brain` 第二大脑笔记库 — 兼容 Obsidian |
 | `obsidian-markdown` · `obsidian-cli` | 正确书写和整理笔记(双链、标签、安全文件操作) |
+
+> **v0.7:** 每个助手都按同样的方式工作 — 先给你看草稿，在你认可的版本上修改而不是重做(保留所有版本)，确认真实结果后才说"完成"，改文件前先备份，删除/发送/付款/安装前先问你。详情: [英文 README](README.md#-how-your-assistant-works-with-you)
 
 安装器还会添加一个**日常工具包** — 全部可选，装不上就静默跳过: Anthropic 官方**文档包**(助手能生成真正的 Word/Excel/PowerPoint/PDF 文件)、通过 [chrome-devtools](https://github.com/ChromeDevTools/chrome-devtools-mcp) 获得的**上网能力**(仅当机器上已装 Chrome — 无需账号、无需密钥)、创意图形技能，以及智能记忆。至于**读** PDF，什么都不用装 — 内置功能: 直接把 PDF 扔给助手就行。
 

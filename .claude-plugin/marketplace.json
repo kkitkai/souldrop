@@ -5,14 +5,14 @@
     "email": "hello@example.com"
   },
   "metadata": {
-    "description": "SoulDrop — drop a soul into any machine. One command installs your personal AI assistant, fully automatic: guided interview, persistent memory, auto-forged custom skills, second-brain vault, everyday-tools pack (real Office/PDF files, browsing), /doctor health check. Pro engine (Claude Code) or Free engine (local Ollama). EN/VI primary; TH/KO/ZH supported.",
-    "version": "0.6.0"
+    "description": "SoulDrop — drop a soul into any machine. One command installs your personal AI assistant, fully automatic: guided interview, persistent memory, auto-forged custom skills, second-brain vault, everyday-tools pack (real Office/PDF files, browsing), task list, preview-first + edit-not-remake habits, /health check. Pro engine (Claude Code) or Free engine (local Ollama). EN/VI primary; TH/KO/ZH supported.",
+    "version": "0.7.0"
   },
   "plugins": [
     {
       "name": "souldrop",
-      "description": "SoulDrop starter for Claude Code: /onboard interview (EN/VI primary; TH/KO/ZH supported) that writes your personalized assistant (CLAUDE.md + memory), auto-forges custom skills for your profession and goal, and sets up an Obsidian-ready second-brain vault — plus core skills for memory, efficiency, leadership, daily notes, and a /doctor health check",
-      "version": "0.6.0",
+      "description": "SoulDrop starter for Claude Code: /onboard interview (EN/VI primary; TH/KO/ZH supported) that writes your personalized assistant (CLAUDE.md + memory), auto-forges custom skills for your profession and goal, and sets up an Obsidian-ready second-brain vault — plus core skills for memory, efficiency, leadership, daily notes, a /todo task list, check-before-install, and a /health check",
+      "version": "0.7.0",
       "author": {
         "name": "SK Production"
       },

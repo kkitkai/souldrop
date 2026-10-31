@@ -16,7 +16,7 @@
 <br>
 
 [![CI](https://img.shields.io/github/actions/workflow/status/kkitkai/souldrop/validate.yml?branch=main&style=flat-square&label=CI&labelColor=20242C)](https://github.com/kkitkai/souldrop/actions/workflows/validate.yml)
-[![Version](https://img.shields.io/badge/version-0.6.0-E8B04B?style=flat-square&labelColor=20242C)](CHANGELOG.md)
+[![Version](https://img.shields.io/badge/version-0.7.0-E8B04B?style=flat-square&labelColor=20242C)](CHANGELOG.md)
 [![License: MIT](https://img.shields.io/badge/license-MIT-2FD6C3?style=flat-square&labelColor=20242C)](LICENSE)
 ![Platform](https://img.shields.io/badge/platform-Windows%20%C2%B7%20macOS%20%C2%B7%20Linux-4A5568?style=flat-square&labelColor=20242C)
 ![Languages](https://img.shields.io/badge/languages-EN%20%C2%B7%20VI%20%C2%B7%20TH%20%C2%B7%20KO%20%C2%B7%20ZH-E8B04B?style=flat-square&labelColor=20242C)
@@ -94,7 +94,7 @@ curl -fsSL https://raw.githubusercontent.com/kkitkai/souldrop/main/install/go.sh
 </tr>
 </table>
 
-<!-- TODO(Nick): replace these illustration cards with real captured session
+<!-- Maintainers: replace these illustration cards with real captured session
      screenshots/recordings once the demo sessions are recorded. -->
 
 ## 🧭 왕초보를 위한 단계별 가이드
@@ -150,7 +150,7 @@ curl -fsSL https://raw.githubusercontent.com/kkitkai/souldrop/main/install/go.sh
 | 성능 | SoulDrop 스킬 전부 | 전부 + 더 깊은 자동화 |
 
 **방법 A — Claude Desktop (터미널 불필요):**
-1. [claude.com/download](https://claude.com/download)에서 앱을 받고 로그인하세요 (Pro/Max 요금제 필요).
+1. [claude.com/download](https://claude.com/download)에서 앱을 받고 로그인하세요 (Pro 이상 요금제 필요).
 2. 앱 상단의 **Code** 탭을 클릭하고 **Local**을 선택하세요.
 3. 입력창에 이 두 명령을 차례로 입력하세요 (한 줄씩 복사, 붙여넣기, Enter):
    ```
@@ -178,7 +178,7 @@ SoulDrop 설치 프로그램이 **Ollama를 이미 자동으로 설치**합니�
 
 ### 🎬 튜토리얼 영상
 
-<!-- TODO(Nick): drag the final .mp4 files into the GitHub web editor and paste
+<!-- Maintainers: drag the final .mp4 files into the GitHub web editor and paste
      the generated user-attachments URLs below — the only form GitHub renders inline. -->
 
 *튜토리얼 영상(베트남어 보이스오버)이 준비 중입니다 — 곧 여기에 올라옵니다. 그때까지는 위의 그림 단계만으로 설치를 끝까지 마칠 수 있습니다.*
@@ -186,14 +186,14 @@ SoulDrop 설치 프로그램이 **Ollama를 이미 자동으로 설치**합니�
 ## 🧠 엔진을 선택하세요
 
 <p align="center">
-  <img src="assets/engines.svg" alt="하나의 뇌가 여러 엔진에 연결됩니다 — Claude Code (Pro), Ollama (무료, 로컬), 그리고 v0.6에 더 추가" width="780">
+  <img src="assets/engines.svg" alt="하나의 뇌가 여러 엔진에 연결됩니다 — Claude Code (Pro), Ollama (무료, 로컬), 그리고 더 많은 엔진 예정" width="780">
 </p>
 
 SoulDrop은 **뇌**(어시스턴트가 누구인지 — 당신 소유의 일반 마크다운 파일)와 **엔진**(그것을 실행하는 것)을 분리합니다. 같은 영혼, 어떤 엔진이든:
 
 | 엔진 | 비용 | 제공 내용 |
 |---|---|---|
-| **Pro — [Claude Code](https://code.claude.com)** | 유료 Claude 요금제 (Pro/Max) | 가장 똑똑한 티어: 전체 스킬, **자동 스킬 단조**(직업에 맞는 커스텀 능력 자동 생성), 진짜 Word/Excel/PowerPoint/PDF 파일 생성, 내 Chrome으로 웹 서핑, 서브에이전트 |
+| **Pro — [Claude Code](https://code.claude.com)** | 유료 Claude 요금제 (Pro 이상) | 가장 똑똑한 티어: 전체 스킬, **자동 스킬 단조**(직업에 맞는 커스텀 능력 자동 생성), 진짜 Word/Excel/PowerPoint/PDF 파일 생성, 내 Chrome으로 웹 서핑, 서브에이전트 |
 | **무료 — [Ollama](https://ollama.com) (로컬)** | **0원, 계정 불필요** | 당신 컴퓨터에서 100% 실행되는 진짜 어시스턴트: 페르소나, 기억, "기억해...", 두 번째 뇌. 기본적으로 프라이빗 |
 | Codex · Antigravity · OpenClaw | — | 🔜 계획 중 |
 
@@ -203,7 +203,7 @@ SoulDrop은 **뇌**(어시스턴트가 누구인지 — 당신 소유의 일반 
 
 - Windows 10 1809+ / macOS 13+ / Ubuntu 20.04+, 설치 시 인터넷
 - **무료 엔진:** 그 외 아무것도 필요 없음. AI 모델용 디스크 ~2–5 GB (RAM에 맞게 자동 선택)
-- **Pro 엔진:** 유료 Claude 구독 (Pro, Max, Team) — [claude.ai](https://claude.ai)
+- **Pro 엔진:** 유료 Claude 구독 (Pro 이상) — [claude.ai](https://claude.ai)
 - **아직 Claude가 없나요?** 7일 무료 Pro 체험으로 시작 → [claude.ai/referral/QbA1I722cA](https://claude.ai/referral/QbA1I722cA) *(추천 링크 — 이 프로젝트를 후원합니다)*
 
 ## 🔁 하나의 뇌, 여러 엔진
@@ -215,8 +215,10 @@ SoulDrop은 **뇌**(어시스턴트가 누구인지 — 당신 소유의 일반 
 | 스킬 | 기능 |
 |---|---|
 | `/onboard` | 개인화된 어시스턴트 + 기억 + 커스텀 스킬 + 두 번째 뇌를 만드는 인터뷰 — 영어, 베트남어, 태국어, 한국어, 중국어 또는 원하는 언어로 |
-| `forge-skills` | **직업과 목표에 맞는 커스텀 스킬 3–5개를 자동 생성** — `/onboard` 끝에 자동 실행, 언제든 재실행 가능. 디자인/콘텐츠 직업이라면 오픈소스 [taste-skill](https://github.com/Leonxlnx/taste-skill) 컬렉션(MIT)에서 프로 "감각" 스킬 1–2개도 추가합니다 |
-| `/doctor` | **건강 검진** — 엔진, 플러그인, 프로필, 기억, 두 번째 뇌, 부가 기능을 점검하고, 고칠 수 있는 것은 조용히 고친 뒤 친근한 보고서 하나를 출력합니다. "뭔가 이상해"라고 말해도 실행됩니다 |
+| `forge-skills` | **직업과 목표에 맞는 커스텀 스킬 3–5개를 자동 생성** — `/onboard` 끝에 자동 실행, 언제든 재실행 가능. 웹/앱 디자인 작업이라면 오픈소스 [taste-skill](https://github.com/Leonxlnx/taste-skill) 디자인 플러그인(MIT)도 설치합니다 |
+| `/health` | **건강 검진** — 엔진, 플러그인, 프로필, 기억, 두 번째 뇌, 안전망, 부가 기능을 점검하고, 고칠 수 있는 것은 조용히 고친 뒤 친근한 보고서 하나를 보여줍니다 *(v0.7 이전 이름은 `/doctor` — 이제 `/doctor`는 Claude Code 자체를 점검하는 내장 명령입니다)* |
+| `/todo` | **잊히는 일 없음** — 모든 요청이 결과를 전달할 때까지 할 일 목록의 한 줄(진행 중 / 당신을 기다리는 중 / 완료)로 관리됩니다. 언제든 *"남은 일 뭐야?"* 라고 물어보세요 |
+| `check-before-install` | 앱·확장·도구를 설치하기 전에: 진짜인지, 누가 만들었는지, 라이선스, 최근 업데이트, 문제 보고를 확인하고 쉬운 말로 설명한 뒤 동의할 때만 설치합니다 |
 | `/uninstall` | SoulDrop과 부가 기능을 깔끔하게 제거 — 프로필, 기억, 노트는 **항상 남습니다** |
 | `create-skill` | 설명만 하면 어시스턴트가 새 능력을 직접 작성·설치 (단조와 같은 품질 기준) |
 | `remember` | 사실/선호를 장기 기억에 저장 |
@@ -228,6 +230,8 @@ SoulDrop은 **뇌**(어시스턴트가 누구인지 — 당신 소유의 일반 
 | `leader` | 큰 작업용: 계획, 분해, 위임, 검증, 하나의 깔끔한 답변으로 보고 |
 | `/setup-vault` | `~/second-brain`에 두 번째 뇌 노트 볼트 (재)생성 — Obsidian 지원 |
 | `obsidian-markdown` · `obsidian-cli` | 볼트 노트를 올바르게 작성·정리 (위키링크, 태그, 안전한 파일 작업) |
+
+> **v0.7:** 모든 어시스턴트가 같은 방식으로 일합니다 — 먼저 초안을 보여 주고, 승인한 버전을 다시 만들지 않고 수정하며(모든 버전 보관), 실제 결과를 확인한 뒤에만 "완료"라고 하고, 파일을 고치기 전에 백업하고, 삭제·전송·결제·설치 전에는 묻습니다. 자세히: [영어 README](README.md#-how-your-assistant-works-with-you)
 
 설치 프로그램은 **일상 도구 팩**도 추가합니다 — 전부 선택 사항이고, 설치가 안 되면 조용히 건너뜁니다: Anthropic 공식 **문서 팩**(어시스턴트가 진짜 Word/Excel/PowerPoint/PDF 파일을 생성), [chrome-devtools](https://github.com/ChromeDevTools/chrome-devtools-mcp)를 통한 **웹 서핑 능력**(Chrome이 이미 설치된 경우에만 — 계정도 키도 불필요), 창의적 그래픽 스킬, 스마트 메모리. 그리고 PDF **읽기**는 아무 설치도 필요 없습니다 — 기본 내장이니 그냥 PDF를 던져 주세요.
 

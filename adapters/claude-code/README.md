@@ -1,7 +1,7 @@
 # Adapter: Claude Code (Pro tier)
 
 The richest engine — full skills, auto skill-forge, subagents. Needs a paid
-Claude plan (Pro/Max/Team).
+Claude plan (Pro or higher).
 
 ## How it fulfills the [adapter contract](../README.md)
 

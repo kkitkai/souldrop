@@ -1,7 +1,7 @@
 {
   "name": "souldrop",
-  "version": "0.6.0",
-  "description": "SoulDrop for Claude Code: run /onboard to be interviewed (English, Vietnamese, Thai, Korean, Chinese — or any language you name) and get a personalized AI assistant — its own name, personality, goals, persistent memory, a ready second-brain vault, AND custom skills it forges automatically for your profession and goal. Core skills: work-smart, remember, recall, learn-from-mistakes, daily-note, personal, leader, create-skill, forge-skills, doctor, uninstall, obsidian-markdown, obsidian-cli. Includes a safety-net hook that blocks destructive commands.",
+  "version": "0.7.0",
+  "description": "SoulDrop for Claude Code: run /onboard to be interviewed (English, Vietnamese, Thai, Korean, Chinese — or any language you name) and get a personalized AI assistant — its own name, personality, goals, persistent memory, a ready second-brain vault, AND custom skills it forges automatically for your profession and goal. Core skills: work-smart, remember, recall, learn-from-mistakes, daily-note, personal, leader, create-skill, forge-skills, health, todo, check-before-install, setup-vault, uninstall, obsidian-markdown, obsidian-cli. Every assistant previews first, edits approved work instead of remaking it, keeps all versions, and checks results before saying done. Includes a safety-net hook (Bash + PowerShell) that blocks destructive commands.",
   "author": {
     "name": "SK Production",
     "url": "https://github.com/kkitkai"

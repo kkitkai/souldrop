@@ -3,6 +3,84 @@
 All notable changes to this project are documented here.
 Format: [Keep a Changelog](https://keepachangelog.com/) · Versioning: [SemVer](https://semver.org/).
 
+## [0.7.0] — 2026-10-31
+
+The **"Works like a pro"** release: SoulDrop catches up with four months of
+Claude Code changes, and every assistant it builds now follows proven working
+habits — track every request, preview first, edit instead of remaking, keep
+every version, check before saying "done".
+
+### Fixed (Claude Code changed under us)
+- **`/doctor` → `/health`.** Claude Code now ships its own built-in `/doctor`
+  (a setup checkup), which takes the bare name, so SoulDrop's check could no
+  longer be reached as `/doctor`. It is now `/health` (or `/souldrop:health`);
+  the health card ends with a tip telling the two apart.
+- **Safety net on Windows.** The hook only matched the `Bash` tool; on Windows
+  Claude Code can route shell commands through its **PowerShell tool**, which
+  the guard never saw. It now matches `Bash|PowerShell`, runs in exec form
+  (`node` + `args`), and sets `onFailure: "continue"` so a missing Node never
+  blocks the user's work. guard.js also catches Remove-Item aliases, `-r`/`-rec`
+  prefixes, `$env:USERPROFILE` and `cmd /c rd /s` wrappers. Tests: 33 → 54
+  (incl. end-to-end stdin runs for both tool shapes).
+- **Taste pass.** taste-skill reorganised upstream and the folders the forge
+  copied are gone, so design users silently got nothing. The forge now
+  installs the `taste-skill` plugin from its author's own marketplace (web/app
+  design work only; needs Node 22+ and a Chromium browser, per upstream).
+- **Plan wording**: "a paid Claude plan (Pro or higher)" everywhere.
+- **Browsing** now requires Node **20.19+** (chrome-devtools-mcp's engine
+  range); 20.0–20.18 used to pass our check and then fail.
+
+### Added
+- **`/todo` — nothing gets lost.** Every real request becomes a line in
+  `~/.claude/memory/tasks.md` (doing / waiting for you / done), marked done only
+  after the user has seen the result. Ask "what's left?" / "còn gì chưa xong?"
+  anytime; open items are mentioned once at the start of a session.
+- **`check-before-install`.** Before any app, extension, plugin or repo is
+  installed: is it the real one, who makes it, licence, last update, trouble
+  reports, what it will change — explained in plain words, installed only
+  after a yes, never with the user's password typed by the assistant.
+- **"How I work" + "Safety" in every profile** (CLAUDE.md template, EN/VI):
+  preview first and never silent; honest progress words; once something is
+  approved it is locked and later changes *edit* it one step at a time;
+  every version kept (`-v2`, `-v3`), nothing deleted without the user;
+  check the real result before saying "done", say "I don't know" when true;
+  options side by side; back up before changing a file and say how to undo;
+  ask before delete/send/pay/install; never type a password.
+- **learn-from-mistakes** is now a step-by-step loop that also fixes the skill or
+  profile line that caused the mistake (with a backup).
+- **create-skill**: "edit, don't remake" with numbered versions.
+- **leader**: optional planner → maker → checker mode (the checker sees the
+  real output, not the maker's summary) using built-in subagents.
+- **forge-skills**: plain image-prompt habits for skills that make images.
+- **Health check** also verifies Claude Code ≥ 2.1.295 (suggests
+  `claude update`), whether SoulDrop is up to date, Node for browsing, and
+  whether the safety net can run.
+- README: "How your assistant works with you" and "Built into Claude Code"
+  (`/powerup`, `/doctor`, `/memory`, `/insights`) sections (EN + VI; one-line
+  summary in TH/KO/ZH).
+- Free tier persona (both launchers + brain template): compact version of the
+  same working habits.
+
+### Changed
+- Installers (both, in sync): one-step `claude plugin install <p>
+  --marketplace <source>` (Claude Code 2.1.292+) with the classic two-step as
+  fallback; 5 steps instead of 6; Claude Code older than 2.1.295 gets one
+  `claude update`; plain note when the safety net is off for lack of Node
+  (Linux: shows the `sudo` line for the user to type — we never sudo).
+- Optional `SOULDROP_ENGINE=pro|free` and `SOULDROP_REF=<branch|tag>` for
+  scripted and branch testing. Default behaviour unchanged.
+- Custom commands were merged into skills upstream: the duplicate
+  `commands/*.md` files are gone; `setup-vault` is a real skill now;
+  `uninstall` only runs when typed.
+- Profile template: one line separating SoulDrop's personal memory
+  (`~/.claude/memory/`) from Claude Code's automatic project memory.
+- Demo animation uses a neutral example user.
+
+### Not changed (on purpose)
+- Free-tier models stay as they are (llama3.x). Newer small models look
+  stronger for Vietnamese, but we only switch after a real VN chat test on
+  each size — planned for v0.8.
+
 ## [0.6.0] — 2026-07-06
 
 The **"Superior"** release: capability breadth + trust. The assistant stops
@@ -93,7 +171,7 @@ diagnosing itself — every new piece optional, silent-skip, zero questions.
   flag · auto-update check · web-based onboarding · GitHub Pages docs site ·
   SoulDrop cloud · Telegram bridge · multi-soul switching · voice mode.
 
-### Pending (release ritual — Nick)
+### Pending (release ritual)
 - Push to GitHub, cut the **v0.6.0 release** with `SoulDrop-Installer.bat`
   attached as a release asset, and record the demo videos for the reserved
   README slots. Sandbox-test both installers end-to-end.

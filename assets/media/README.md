@@ -15,7 +15,7 @@ So the working recipe per video:
    and paste the generated `user-attachments` URL on its own line in the
    "🎬 Video hướng dẫn" section — that gives a real inline player.
 
-Files expected (TODO — Nick drops these from the video pipeline):
+Files expected (to be added by the maintainers):
 
 - `tutorial-install-vn.mp4` + `tutorial-install-vn-preview.gif` — cài đặt từ đầu
 - `tutorial-onboard-vn.mp4` + `tutorial-onboard-vn-preview.gif` — chạy /onboard

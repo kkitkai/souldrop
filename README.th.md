@@ -16,7 +16,7 @@
 <br>
 
 [![CI](https://img.shields.io/github/actions/workflow/status/kkitkai/souldrop/validate.yml?branch=main&style=flat-square&label=CI&labelColor=20242C)](https://github.com/kkitkai/souldrop/actions/workflows/validate.yml)
-[![Version](https://img.shields.io/badge/version-0.6.0-E8B04B?style=flat-square&labelColor=20242C)](CHANGELOG.md)
+[![Version](https://img.shields.io/badge/version-0.7.0-E8B04B?style=flat-square&labelColor=20242C)](CHANGELOG.md)
 [![License: MIT](https://img.shields.io/badge/license-MIT-2FD6C3?style=flat-square&labelColor=20242C)](LICENSE)
 ![Platform](https://img.shields.io/badge/platform-Windows%20%C2%B7%20macOS%20%C2%B7%20Linux-4A5568?style=flat-square&labelColor=20242C)
 ![Languages](https://img.shields.io/badge/languages-EN%20%C2%B7%20VI%20%C2%B7%20TH%20%C2%B7%20KO%20%C2%B7%20ZH-E8B04B?style=flat-square&labelColor=20242C)
@@ -94,7 +94,7 @@ curl -fsSL https://raw.githubusercontent.com/kkitkai/souldrop/main/install/go.sh
 </tr>
 </table>
 
-<!-- TODO(Nick): replace these illustration cards with real captured session
+<!-- Maintainers: replace these illustration cards with real captured session
      screenshots/recordings once the demo sessions are recorded. -->
 
 ## 🧭 คู่มือทีละขั้นสำหรับมือใหม่
@@ -150,7 +150,7 @@ curl -fsSL https://raw.githubusercontent.com/kkitkai/souldrop/main/install/go.sh
 | พลัง | สกิล SoulDrop ครบ | ครบ + ระบบอัตโนมัติลึกกว่า |
 
 **วิธี A — Claude Desktop (ไม่ต้องใช้ terminal):**
-1. โหลดแอปที่ [claude.com/download](https://claude.com/download) แล้วล็อกอิน (ต้องมีแพ็กเกจ Pro/Max)
+1. โหลดแอปที่ [claude.com/download](https://claude.com/download) แล้วล็อกอิน (ต้องมีแพ็กเกจ Pro ขึ้นไป)
 2. กดแท็บ **Code** ที่แถบบนสุดของแอป แล้วเลือก **Local**
 3. พิมพ์สองคำสั่งนี้ในช่องแชต (ก๊อปทีละบรรทัด วาง Enter):
    ```
@@ -178,7 +178,7 @@ curl -fsSL https://raw.githubusercontent.com/kkitkai/souldrop/main/install/go.sh
 
 ### 🎬 วิดีโอสอน
 
-<!-- TODO(Nick): drag the final .mp4 files into the GitHub web editor and paste
+<!-- Maintainers: drag the final .mp4 files into the GitHub web editor and paste
      the generated user-attachments URLs below — the only form GitHub renders inline. -->
 
 *วิดีโอสอน (พากย์เวียดนาม) กำลังมา — จะปรากฏตรงนี้ ระหว่างนี้ภาพประกอบด้านบนพาคุณติดตั้งได้ครบทุกขั้น*
@@ -186,14 +186,14 @@ curl -fsSL https://raw.githubusercontent.com/kkitkai/souldrop/main/install/go.sh
 ## 🧠 เลือกเอนจินของคุณ
 
 <p align="center">
-  <img src="assets/engines.svg" alt="สมองเดียวป้อนหลายเอนจิน — Claude Code (Pro), Ollama (ฟรี ในเครื่อง) และอีกมากใน v0.6" width="780">
+  <img src="assets/engines.svg" alt="สมองเดียวป้อนหลายเอนจิน — Claude Code (Pro), Ollama (ฟรี ในเครื่อง) และอื่น ๆ ที่วางแผนไว้" width="780">
 </p>
 
 SoulDrop แยก **สมอง** (ผู้ช่วยของคุณคือใคร — ไฟล์ markdown ธรรมดาที่เป็นของคุณ) ออกจาก **เอนจิน** (สิ่งที่ขับเคลื่อนมัน) วิญญาณเดียวกัน ใช้ได้ทุกเอนจิน:
 
 | เอนจิน | ค่าใช้จ่าย | สิ่งที่ได้ |
 |---|---|---|
-| **Pro — [Claude Code](https://code.claude.com)** | บัญชี Claude แบบเสียเงิน (Pro/Max) | ระดับฉลาดที่สุด: สกิลครบชุด **สร้างสกิลเฉพาะอาชีพให้อัตโนมัติ** ทำไฟล์ Word/Excel/PowerPoint/PDF จริง ท่องเว็บผ่าน Chrome ของคุณ มี subagent |
+| **Pro — [Claude Code](https://code.claude.com)** | บัญชี Claude แบบเสียเงิน (Pro ขึ้นไป) | ระดับฉลาดที่สุด: สกิลครบชุด **สร้างสกิลเฉพาะอาชีพให้อัตโนมัติ** ทำไฟล์ Word/Excel/PowerPoint/PDF จริง ท่องเว็บผ่าน Chrome ของคุณ มี subagent |
 | **ฟรี — [Ollama](https://ollama.com) (รันในเครื่อง)** | **0 บาท ไม่ต้องมีบัญชี** | ผู้ช่วยตัวจริงที่รัน 100% บนเครื่องของคุณ: บุคลิก ความจำ "จำไว้ว่า..." สมองที่สอง เป็นส่วนตัวโดยค่าเริ่มต้น |
 | Codex · Antigravity · OpenClaw | — | 🔜 อยู่ในแผน |
 
@@ -203,7 +203,7 @@ SoulDrop แยก **สมอง** (ผู้ช่วยของคุณค�
 
 - Windows 10 1809+ / macOS 13+ / Ubuntu 20.04+ และอินเทอร์เน็ตตอนติดตั้ง
 - **เอนจินฟรี:** ไม่ต้องมีอะไรเพิ่ม ใช้พื้นที่ดิสก์ ~2–5 GB สำหรับโมเดล AI (เลือกให้พอดีกับ RAM อัตโนมัติ)
-- **เอนจิน Pro:** บัญชี Claude แบบเสียเงิน (Pro, Max หรือ Team) — [claude.ai](https://claude.ai)
+- **เอนจิน Pro:** บัญชี Claude แบบเสียเงิน (Pro ขึ้นไป) — [claude.ai](https://claude.ai)
 - **ยังไม่มี Claude?** เริ่มด้วยทดลอง Pro ฟรี 7 วัน → [claude.ai/referral/QbA1I722cA](https://claude.ai/referral/QbA1I722cA) *(ลิงก์แนะนำ — สนับสนุนโปรเจกต์นี้)*
 
 ## 🔁 สมองเดียว หลายเอนจิน
@@ -215,8 +215,10 @@ SoulDrop แยก **สมอง** (ผู้ช่วยของคุณค�
 | สกิล | หน้าที่ |
 |---|---|
 | `/onboard` | สัมภาษณ์เพื่อสร้างผู้ช่วยส่วนตัว + ความจำ + สกิลเฉพาะ + สมองที่สอง — เป็นภาษาอังกฤษ เวียดนาม ไทย เกาหลี จีน หรือภาษาของคุณเอง |
-| `forge-skills` | **สร้างสกิลเฉพาะอาชีพและเป้าหมายของคุณ 3–5 อย่างโดยอัตโนมัติ** — รันเองตอนจบ `/onboard` รันซ้ำได้ทุกเมื่อ สำหรับอาชีพสายดีไซน์/คอนเทนต์ยังเพิ่มสกิล "รสนิยมมือโปร" อีก 1–2 อย่างจากชุดโอเพนซอร์ส [taste-skill](https://github.com/Leonxlnx/taste-skill) (MIT) |
-| `/doctor` | **ตรวจสุขภาพ** — เช็กเอนจิน ปลั๊กอิน โปรไฟล์ ความจำ สมองที่สอง และส่วนเสริม ซ่อมเงียบ ๆ เท่าที่ซ่อมได้ แล้วพิมพ์รายงานฉบับเป็นกันเอง พูดว่า "ผู้ช่วยพัง" มันก็รัน |
+| `forge-skills` | **สร้างสกิลเฉพาะอาชีพและเป้าหมายของคุณ 3–5 อย่างโดยอัตโนมัติ** — รันเองตอนจบ `/onboard` รันซ้ำได้ทุกเมื่อ สำหรับงานออกแบบเว็บ/แอปยังติดตั้งปลั๊กอินโอเพนซอร์ส [taste-skill](https://github.com/Leonxlnx/taste-skill) (MIT) เพิ่มให้ |
+| `/health` | **ตรวจสุขภาพ** — เช็กเอนจิน ปลั๊กอิน โปรไฟล์ ความจำ สมองที่สอง ระบบกันพลาด และส่วนเสริม แก้ที่แก้ได้เงียบ ๆ แล้วสรุปเป็นรายงานเดียวที่อ่านง่าย *(ก่อน v0.7 ชื่อ `/doctor` — ตอนนี้ `/doctor` เป็นคำสั่งในตัวของ Claude Code ที่ตรวจตัว Claude Code เอง)* |
+| `/todo` | **ไม่มีงานไหนหลุด** — ทุกคำขอกลายเป็นหนึ่งบรรทัดในรายการงาน (กำลังทำ / รอคุณ / เสร็จ) จนกว่าจะส่งผลงาน ถาม *"เหลืออะไรบ้าง?"* ได้ทุกเมื่อ |
+| `check-before-install` | ก่อนติดตั้งแอปหรือเครื่องมือใด ๆ: ตรวจว่าเป็นของจริง ใครทำ ไลเซนส์ อัปเดตล่าสุด มีรายงานปัญหาไหม — อธิบายง่าย ๆ และติดตั้งเมื่อคุณตกลงเท่านั้น |
 | `/uninstall` | ถอน SoulDrop และส่วนเสริมอย่างสะอาด — โปรไฟล์ ความทรงจำ และโน้ตของคุณ**ยังอยู่เสมอ** |
 | `create-skill` | สอนผู้ช่วยความสามารถใหม่ด้วยการอธิบาย — มันเขียนและติดตั้งสกิลเอง (มาตรฐานคุณภาพเดียวกับ forge) |
 | `remember` | บันทึกข้อมูล/ความชอบลงความจำระยะยาว |
@@ -228,6 +230,8 @@ SoulDrop แยก **สมอง** (ผู้ช่วยของคุณค�
 | `leader` | สำหรับงานใหญ่: วางแผน แตกงาน มอบหมาย ตรวจสอบ รายงานคำตอบเดียวที่ชัดเจน |
 | `/setup-vault` | สร้าง (ใหม่) คลังโน้ตสมองที่สองที่ `~/second-brain` — พร้อมใช้กับ Obsidian |
 | `obsidian-markdown` · `obsidian-cli` | เขียนและจัดระเบียบโน้ตอย่างถูกต้อง (wikilink แท็ก จัดการไฟล์อย่างปลอดภัย) |
+
+> **v0.7:** ผู้ช่วยทุกตัวทำงานแบบเดียวกัน — ส่งร่างให้ดูก่อน, แก้ไขจากเวอร์ชันที่คุณอนุมัติแทนการทำใหม่ (เก็บทุกเวอร์ชัน), ตรวจผลจริงก่อนบอกว่าเสร็จ, สำรองไฟล์ก่อนแก้ และถามก่อนลบ/ส่ง/จ่ายเงิน/ติดตั้ง รายละเอียด: [README ภาษาอังกฤษ](README.md#-how-your-assistant-works-with-you)
 
 ตัวติดตั้งยังเพิ่ม**ชุดเครื่องมือประจำวัน** — ทุกอย่างเป็นทางเลือก ติดตั้งไม่ได้ก็ข้ามเงียบ ๆ: **ชุดเอกสาร**ทางการของ Anthropic (ผู้ช่วยทำไฟล์ Word/Excel/PowerPoint/PDF จริง) **พลังท่องเว็บ**ผ่าน [chrome-devtools](https://github.com/ChromeDevTools/chrome-devtools-mcp) (เฉพาะเมื่อเครื่องมี Chrome อยู่แล้ว — ไม่ต้องมีบัญชี ไม่ต้องมี key) สกิลกราฟิกสร้างสรรค์ และความจำอัจฉริยะ ส่วนการ**อ่าน** PDF ไม่ต้องติดตั้งอะไรเลย — มีในตัว: แค่ส่งไฟล์ PDF ให้ผู้ช่วย
 
