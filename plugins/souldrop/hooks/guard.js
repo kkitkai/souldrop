@@ -1,5 +1,7 @@
 #!/usr/bin/env node
-// SoulDrop safety net — PreToolUse hook on the Bash tool.
+// SoulDrop safety net — PreToolUse hook on the Bash and PowerShell tools.
+// (On Windows, Claude Code may route shell commands through its PowerShell
+// tool instead of Bash, so hooks.json matches "Bash|PowerShell".)
 // Blocks a SHORT list of obviously catastrophic commands so a beginner's
 // assistant can never wipe their machine, and asks first on `git reset --hard`.
 //
@@ -20,7 +22,7 @@ function decide(cmd) {
   // Targets that mean "everything": filesystem root, home, or a bare drive.
   const isWipeTarget = (tok) => {
     const t = tok.replace(/^["']|["']$/g, '');
-    return /^(\/|\/\*|~|~\/|~\/\*|\$HOME\/?|"\$HOME"\/?|%USERPROFILE%\\?|[A-Za-z]:[\\\/]?(\*)?)$/.test(t);
+    return /^(\/|\/\*|~|~[\\\/]|~[\\\/]\*|\$HOME[\\\/]?|"\$HOME"[\\\/]?|\$env:USERPROFILE[\\\/]?|\$env:HOMEDRIVE[\\\/]?|%USERPROFILE%\\?|[A-Za-z]:[\\\/]?(\*)?)$/i.test(t);
   };
 
   // Split into simple command segments; naive but enough for a safety net.
@@ -30,6 +32,8 @@ function decide(cmd) {
     if (!seg) continue;
     let toks = seg.split(/\s+/);
     if (toks[0] === 'sudo') toks = toks.slice(1);
+    // cmd /c rd /s /q C:\  ->  look at the wrapped command
+    if (/^cmd(\.exe)?$/i.test(toks[0] || '') && /^\/c$/i.test(toks[1] || '')) toks = toks.slice(2);
     const head = (toks[0] || '').toLowerCase();
     const args = toks.slice(1);
 
@@ -46,8 +50,10 @@ function decide(cmd) {
     }
 
     // PowerShell: Remove-Item -Recurse ... on / ~ or a drive root
-    if (head === 'remove-item' || head === 'ri') {
-      const hasRecurse = args.some((a) => /^-recurse/i.test(a));
+    // (rm/del/rd/rmdir/erase are Remove-Item aliases inside PowerShell)
+    if (['remove-item', 'ri', 'rm', 'del', 'rd', 'rmdir', 'erase'].includes(head)) {
+      // PowerShell accepts any unambiguous prefix: -r, -rec, -Recurse
+      const hasRecurse = args.some((a) => /^-r(e(c(u(r(s(e)?)?)?)?)?)?(:\$true)?$/i.test(a));
       if (hasRecurse && args.some(isWipeTarget)) return { deny: DENY_MSG + ' (Remove-Item on root/home)' };
     }
 
@@ -83,7 +89,7 @@ function main() {
   process.stdin.on('end', () => {
     try {
       const input = JSON.parse(raw || '{}');
-      if (input.tool_name && input.tool_name !== 'Bash') return process.exit(0);
+      if (input.tool_name && input.tool_name !== 'Bash' && input.tool_name !== 'PowerShell') return process.exit(0);
       const cmd = String((input.tool_input && input.tool_input.command) || '');
       if (!cmd) return process.exit(0);
       const verdict = decide(cmd);
