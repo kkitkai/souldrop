@@ -32,11 +32,11 @@ official sources, never vendored into this repository:
   - agentmemory (Apache-2.0, github.com/rohitg00/agentmemory) is installed
     from its own plugin marketplace; nothing is bundled here.
 
-The forge-skills skill may, for design/content professions, install 1-2
-sub-skills from taste-skill (github.com/Leonxlnx/taste-skill),
-Copyright (c) Leonxlnx, licensed under the MIT License. They are fetched
-from the upstream repository at install time (not bundled here), and the
-upstream MIT LICENSE file is copied alongside each installed sub-skill.
+The forge-skills skill may, for web/app design professions, install the
+taste-skill plugin (github.com/Leonxlnx/taste-skill), Copyright (c)
+Leonxlnx, licensed under the MIT License. It is installed from the
+author's own plugin marketplace with `claude plugin install` (not bundled
+or copied here); its LICENSE ships with the plugin.
 
 Everything original in this repository (bootstrap scripts, plugin, skills,
 adapters, brain spec, launchers, templates, documentation) is licensed under

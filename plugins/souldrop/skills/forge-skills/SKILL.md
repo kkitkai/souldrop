@@ -107,38 +107,34 @@ For each passing skill, write `~/.claude/skills/<name>/SKILL.md`
 (user scope — resolve `$HOME` / `%USERPROFILE%`, create folders as needed).
 Never overwrite an existing skill on the auto-run.
 
-## Step 5.5 — Taste pass (only for design/content professions; silent)
+## Step 5.5 — Taste pass (only for web/app design professions; silent)
 
-If — and only if — the user's profession or goal touches **design, web,
-landing pages, apps, social content, branding, or slides/presentations**,
-also install 1–2 matching pro "taste" skills from the open-source
-[taste-skill](https://github.com/Leonxlnx/taste-skill) collection
-(MIT, © Leonxlnx — attribution already recorded in this repo's NOTICE).
-A shop owner, teacher, or accountant gets NOTHING from this step — skip it
-entirely; never install taste skills "just in case".
+If — and only if — the user's profession or goal touches **websites, landing
+pages, apps, dashboards or UI design**, also install the open-source
+[taste-skill](https://github.com/Leonxlnx/taste-skill) plugin (MIT, © Leonxlnx
+— attribution recorded in this repo's NOTICE). It gives the assistant an eye
+for high-end web design. A shop owner, teacher, or accountant gets NOTHING
+from this step — skip it entirely; never install it "just in case".
 
-Mapping (max 2, prefer 1):
+Requirements (upstream): Node.js **22 or newer** and Chrome, Edge or Chromium
+installed. Check quietly (`node -v`; a browser on the usual paths). Missing →
+skip this step silently.
 
-| User builds… | Sub-skill folder in the repo | Installs as |
-|---|---|---|
-| websites, landing pages, apps, UI | `taste-skill/` | `design-taste-frontend` |
-| visual/brand design, slides, posters, social visuals | `soft-skill/` | `high-end-visual-design` |
+How (non-interactive, silent-fail like everything else) — install it the
+official plugin way, straight from its author's own marketplace, so updates
+come from upstream and nothing is copied by hand:
 
-How (non-interactive, silent-fail like everything else):
+1. `claude plugin install taste-skill --marketplace Leonxlnx/taste-skill`
+   (Claude Code 2.1.292+). On an older Claude Code, use the two-step form:
+   `claude plugin marketplace add Leonxlnx/taste-skill` then
+   `claude plugin install taste-skill@taste-skill`.
+2. Already installed (`claude plugin list` shows `taste-skill`) → do nothing.
 
-1. `git clone --depth 1 https://github.com/Leonxlnx/taste-skill <temp-dir>`
-   (use the OS temp dir; git is present — the installer ensures it).
-2. Copy the chosen sub-skill folder(s) to `~/.claude/skills/<installs-as-name>/`
-   (folder name = the `name:` in that sub-skill's frontmatter, listed above).
-   Never overwrite an existing folder of the same name.
-3. Copy the repo-root `LICENSE` file into each copied skill folder as
-   `LICENSE` — MIT requires the notice to travel with the code.
-4. Delete the temp clone.
-
-If the clone or copy fails for any reason (offline, git missing), skip
+If the install fails for any reason (offline, old Claude Code), skip
 silently — the forged skills from Step 5 are the main event; this is a bonus.
-In Step 6's show-off list, present any installed taste skill in plain words
-("an eye for high-end design"), never as "taste-skill" or a GitHub URL.
+In Step 6's show-off list, present it in plain words ("an eye for high-end
+web design"), never as "taste-skill" or a GitHub URL. `/uninstall` with
+"also remove the extras" removes it again.
 
 ## Step 6 — Show off (this is the payoff moment)
 

@@ -45,6 +45,9 @@ Extras removal (only if they chose "Also remove the extras"):
    `claude plugin marketplace remove anthropic-agent-skills`.
 6. If `agentmemory` is installed: `claude plugin uninstall agentmemory` and
    `claude plugin marketplace remove agentmemory`.
+7. If `taste-skill` is installed (the forge adds it for web-design work):
+   `claude plugin uninstall taste-skill` and
+   `claude plugin marketplace remove taste-skill`.
 
 Do NOT touch: forged skills in `~/.claude/skills/` (they're the user's own
 toolkit and keep working without SoulDrop), Obsidian, Ollama, Node, git —
