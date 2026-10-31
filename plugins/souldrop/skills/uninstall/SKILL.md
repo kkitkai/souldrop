@@ -1,6 +1,7 @@
 ---
 name: uninstall
 description: Cleanly removes SoulDrop — plugin, marketplace, and the optional extras the installer added — while ALWAYS keeping the user's brain (profile, memories, second-brain notes). Use when the user types /uninstall, says "remove souldrop", "uninstall my assistant", "gỡ trợ lý", "xóa SoulDrop", "ลบผู้ช่วย", "어시스턴트 제거", "卸载助手".
+disable-model-invocation: true
 ---
 
 # Uninstall — remove SoulDrop cleanly, keep the brain

@@ -1,6 +1,9 @@
 ---
-description: Create your second-brain note vault at ~/second-brain (Obsidian-ready) / Tạo kho ghi chú "bộ não thứ hai" của bạn
+name: setup-vault
+description: Creates (or fills the gaps in) the user's second-brain note vault at ~/second-brain, Obsidian-ready. Use when the user types /setup-vault, says "set up my notes", "create my second brain", "tạo bộ não thứ hai", "tạo kho ghi chú". Also runs automatically at the end of /onboard.
 ---
+
+# Setup vault — your second-brain notes folder
 
 Create the user's second-brain vault — silently, non-blocking, no technical
 questions. This also runs automatically at the end of `/onboard`.
